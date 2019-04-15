@@ -112,3 +112,26 @@ void SetColor(int value)
 	- Numbers after 15 are background colors -
 	*/
 }
+
+void Transfer::uploadToClient(Server* serv1, const std::string filename)
+{
+	std::cout << "[*] Starting the upload of : " << filename << std::endl;
+	char buffer[BUFFER_LEN] = { 0 };
+	std::ifstream file(filename, std::ios::in);
+
+	if (file)
+	{
+		serv1->send_b(("upload " + filename).c_str());
+		std::string line;
+		while (std::getline(file, line))
+		{
+			serv1->send_b(line.c_str());
+		}
+		serv1->send_b("STOP");
+		std::cout << "[*] Done" << std::endl;
+	}
+	else
+	{
+		std::cout << "[*] Error can\'t open file : " << filename << std::endl;
+	}
+}

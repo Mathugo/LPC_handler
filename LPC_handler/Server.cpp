@@ -1,9 +1,4 @@
 #include "Server.h"
-#pragma warning(disable:4996) 
-#include <thread>
-#include <mutex>
-#include <iostream>
-#include "Scripts_s.h"
 
 Server::Server(const int pPort) : port(pPort), Socket_()
 {
@@ -43,40 +38,12 @@ Server::~Server()
 	}
 }
 
-bool Server::send_c()
+void Server::send_c()
 {
-	
 	char b[256] = { 0 };
 	std::cout << ">> ";
 	std::cin.getline(b, sizeof(b));	
-
-	if (!(strcmp(b, "exit")) || !(strcmp(b, "EXIT"))) 
-	{
-		exit = 1;
-		return 0;
-	}
-	else if (strcmp(b, "help") == 0 || strcmp(b, "HELP") == 0)
-	{
-		Info::print_help();
-	}
-	else if (!(strcmp(b, "list")))
-	{
-		Info::list(this);		
-	}
-	else if (!(strcmp(b, "list_scripts")))
-	{
-		Info::list_scripts();
-	}
-	else if (!(strcmp(b, "set_session")))
-	{
-		Info::set_session(this);
-	}
-	else if (!(strcmp(b, "getsysinfo")))
-	{
-		Info::getsysinfo(this);
-	}
-	else if (!(this->send_b(b))) { return 1; }
-	else { return 0; }
+	Factory_Server fac(this,b);
 }
 
 bool Server::send_b(const char* pbuffer)
@@ -136,6 +103,7 @@ bool Server::acceptClient()
 
 std::vector<st_Client> Server::getClients(){return clients;}
 bool Server::getExit() { return exit; }
+void Server::setExit(const bool &pexit) { exit = pexit; }
 void Server::setDefaultClient(st_Client _default)
 {
 	default_client = _default;

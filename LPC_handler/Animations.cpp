@@ -1,22 +1,32 @@
 #include "Animations.h"
 
 
-void Animations::Welcome()
+void Animations::Welcome(const unsigned short& port)
 {
-	SetColor(2);
-	std::cout << "[*] You have now access to the payload, be sure to check all options by taping : help" << std::endl << std::endl;
-	SetColor(10);
-	std::cout << "BOTNET Version : " << VERSION << std::endl << std::endl;
+	std::cout << "BOTNET Version : " << VERSION << std::endl;
+	std::cout << "Last update : " << UPDATE << std::endl << std::endl;
 	SetColor(2);
 
-	std::cout <<"\t\t[ #--------------# Welcome to the LPC_FRAMEWORK #------------#]" << std::endl;
+	std::cout <<"\t\t[ #--------------#	   Welcome to \t\t#------------#]" << std::endl;
 	std::cout <<"\t\t[ #--------------#       Le Petit Cheval        #------------#]" << std::endl;
 	std::cout <<"\t\t[ Fully undetectable payload.It allows you to do basic tricks ]" << std::endl;
 	std::cout <<"\t\t[ like screenshot, upload rootkit,custom exploit,enum password]" << std::endl;
-	std::cout <<"\t\t[ #--------------------MADE BY HUGO MATH----------------------#]" << std::endl;
+	std::cout <<"\t\t[ #--------------------MADE BY HUGO MATH---------------------#]" << std::endl;
 	std::cout <<"\t\t[ # Author            : Hugo Math                            #]" << std::endl;
 	std::cout <<"\t\t[ # Script Developers : Hugo Math && Lucien Leseigle         #]" << std::endl;
-	std::cout << "\t\t[ # Contributors      : Hugo Math && Lucien Leseigle         #]" << std::endl;
-	std::cout << "[*] WARNING this handler only works on Windows" << std::endl;
+	std::cout <<"\t\t[ # Contributors      : Hugo Math && Lucien Leseigle         #]" << std::endl;
+	std::cout <<"[*] WARNING this handler only works on Windows" << std::endl << std::endl;
+	SetColor(10);
+	std::cout << "Enter : listen to start listenning to clients at the port : " << port<< std::endl;
+	std::cout << "Enter : exit to exit the handler" << std::endl;
 	SetColor(7);
+	std::cout << ">> ";
+}
+
+void Animations::Start()
+{
+	system("cls");
+	SetColor(2);
+	std::cout << "[*] You have now access to the payload, be sure to check all options by taping : help" << std::endl << std::endl;
+	SetColor(10);
 }

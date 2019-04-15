@@ -9,9 +9,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Scripts_s.h">
-      <Filter>Scripts</Filter>
-    </ClInclude>
     <ClInclude Include="Animations.h">
       <Filter>Scripts</Filter>
     </ClInclude>
@@ -22,6 +19,9 @@
     </ClInclude>
     <ClInclude Include="Server.h">
       <Filter>Socket</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts_s.h">
+      <Filter>Scripts</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

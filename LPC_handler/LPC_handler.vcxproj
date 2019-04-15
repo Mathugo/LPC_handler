@@ -152,9 +152,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\LPC\LPC\LPC\Socket_.h" />
-    <ClInclude Include="..\..\Scripts_s.h" />
     <ClInclude Include="Animations.h" />
     <ClInclude Include="Factory_Server.h" />
+    <ClInclude Include="Scripts_s.h" />
     <ClInclude Include="Server.h" />
     <ClInclude Include="Thread_Server.h" />
   </ItemGroup>

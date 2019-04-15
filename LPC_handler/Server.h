@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <fstream>	
 #include "D:\ESIREM\C++\LPC\LPC\LPC\Socket_.h"
+#include "Factory_Server.h"
 
 struct st_Client
 {
@@ -36,8 +37,9 @@ public:
 	std::vector<st_Client> getClients();
 	void setDefaultClient(st_Client _default);
 	bool getExit();
+	void setExit(const bool& pexit);
 	bool acceptClient();
-	bool send_c();
+	void send_c();
 	bool send_b(const char* pbuffer);
 	bool send_b(const int &pbuffer);
 
