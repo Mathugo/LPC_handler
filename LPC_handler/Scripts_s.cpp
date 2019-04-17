@@ -121,7 +121,8 @@ void Transfer::uploadToClient(Server* serv1, const std::string filename)
 
 	if (file)
 	{
-		serv1->send_b(("upload " + filename).c_str());
+		std::cout << "[!] " << file.tellg() << "o to upload" << std::endl;
+		std::cout << "Sending data ..." << std::endl;
 		std::string line;
 		while (std::getline(file, line))
 		{
@@ -132,6 +133,7 @@ void Transfer::uploadToClient(Server* serv1, const std::string filename)
 	}
 	else
 	{
+		serv1->send_b("STOP");
 		std::cout << "[*] Error can\'t open file : " << filename << std::endl;
 	}
 }

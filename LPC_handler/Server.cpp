@@ -41,7 +41,6 @@ Server::~Server()
 void Server::send_c()
 {
 	char b[256] = { 0 };
-	std::cout << ">> ";
 	std::cin.getline(b, sizeof(b));	
 	Factory_Server fac(this,b);
 }

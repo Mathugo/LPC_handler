@@ -9,25 +9,20 @@
 #include "Animations.h"
 #include "Thread_Server.h"
 
-void start(const unsigned short& port)
-{
-	std::string enter;
-	while (enter != "listen")
-	{
-		Animations::Welcome(port);
-		std::cin >> enter;
-		if (enter == "exit")
-		{
-			system("exit");
-		}
-	}
-}
 
 int main()
 {
 	const unsigned short port = 9997;
+	std::string enter;
 
-	start(port);
+	while (enter != "listen")
+	{
+		Animations::Welcome(port);
+		std::cin >> enter;
+		system("cls");
+		if (enter == "exit") { return 0; }
+
+	}
 
 	std::vector<std::thread> thread_list;
 
@@ -46,6 +41,7 @@ int main()
 	std::thread t_send(send_t, serv1);
 	
 	std::cout << "[*] Done" << std::endl;
+	Sleep(3000);
 	Animations::Start();
 	
 	while (serv1->getError() != 1 || serv1->getExit() != 1)

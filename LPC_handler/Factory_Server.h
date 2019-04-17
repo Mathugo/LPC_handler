@@ -15,3 +15,4 @@ public:
 
 };
 
+std::vector<std::string> split(const char* buffer);

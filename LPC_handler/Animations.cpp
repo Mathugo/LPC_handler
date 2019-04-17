@@ -27,6 +27,6 @@ void Animations::Start()
 {
 	system("cls");
 	SetColor(2);
-	std::cout << "[*] You have now access to the payload, be sure to check all options by taping : help" << std::endl << std::endl;
+	std::cout << "[*] You have now access to the payload, be sure to check all options by taping : help" << std::endl;
 	SetColor(10);
 }

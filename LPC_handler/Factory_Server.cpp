@@ -43,17 +43,10 @@ Factory_Server::Factory_Server(Server* serv1,const char* pbuffer) : buffer(pbuff
 	{
 		Info::getsysinfo(serv1);
 	}
-	
-	else if (args[0] == "upload" && args.size() == 2)
-	{
-		Transfer::uploadToClient(serv1, args[1]);
-	}
-	
 	else if (args[0] == "list_scripts")
 	{
 		Info::list_scripts();
 	}
-	
 	else
 	{
 		serv1->send_b(buffer.c_str());
