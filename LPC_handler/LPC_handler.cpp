@@ -28,7 +28,7 @@ int main()
 
 	SetColor(14);
 	Server* serv1 = new Server(port);
-	SetColor(2);
+	SetColor(7);
 	
 	bool test = 0;
 	int nb = 0;
@@ -37,10 +37,8 @@ int main()
 	thread_list.push_back(std::thread(listen_client, serv1, nb));
 	nb++;
 	
-	std::cout << "[*] Starting thread ..." << std::endl;
 	std::thread t_send(send_t, serv1);
 	
-	std::cout << "[*] Done" << std::endl;
 	Sleep(3000);
 	Animations::Start();
 	

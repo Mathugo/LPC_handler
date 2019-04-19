@@ -59,7 +59,6 @@ bool Server::send_b(const int &pbuffer)
 		return 1;
 	else return 0;
 }
-
 bool Server::acceptClient()
 {
 	st_Client NewClient;
@@ -76,7 +75,6 @@ bool Server::acceptClient()
 		char buffer[256];
 		char buff[INET6_ADDRSTRLEN] = { 0 };
 		std::string clientAddress = inet_ntop(addr.sin_family, (void*)&(addr.sin_addr), buff, INET6_ADDRSTRLEN);
-		std::cout << "New client accepted :  " << clientAddress.c_str() << ":" << addr.sin_port << std::endl;
 		NewClient.sock = newClient;
 		NewClient.addr = clientAddress;
 		NewClient.number = (clients.size()+1);
@@ -85,6 +83,8 @@ bool Server::acceptClient()
 
 		NewClient.ip_extern = buffer;
 		clients.push_back(NewClient);
+		std::cout << "New client accepted : " << NewClient.ip_extern << "/" << addr.sin_port << std::endl;
+
 
 		if (clients.size() == 1) 
 		{
@@ -107,7 +107,7 @@ void Server::setDefaultClient(st_Client _default)
 {
 	default_client = _default;
 }
-
+st_Client Server::getDefaultClient() const { return default_client; }
 bool Server::recv_b()
 {
 	char b[SIZE_BUFFER] = { 0 };

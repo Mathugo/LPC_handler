@@ -8,6 +8,7 @@ class Animations
 public:
 	static void Welcome(const unsigned short& port);
 	static void Start();
+	static void Loading(const int &pourcentage);
 
 };
 

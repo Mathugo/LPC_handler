@@ -112,23 +112,51 @@ void SetColor(int value)
 	- Numbers after 15 are background colors -
 	*/
 }
-
 void Transfer::uploadToClient(Server* serv1, const std::string filename)
 {
 	std::cout << "[*] Starting the upload of : " << filename << std::endl;
 	char buffer[BUFFER_LEN] = { 0 };
-	std::ifstream file(filename, std::ios::in);
+
+	std::ifstream file(filename, std::ios::binary | std::ios::in);
 
 	if (file)
 	{
-		std::cout << "[!] " << file.tellg() << "o to upload" << std::endl;
+		SOCKET cl_sock = serv1->getDefaultClient().sock;
+		const int len = 1024;
 		std::cout << "Sending data ..." << std::endl;
-		std::string line;
-		while (std::getline(file, line))
+		const int size = getSize(filename);
+		std::cout << size << " bytes to send" << std::endl;
+		serv1->send_b(size);
+		int current_size = 0;
+		char memblock[len] = { 0 };
+		const int rest = size % len;
+		Sleep(2000);
+		int nb = 0;
+		file.seekg(0, std::ios::beg);
+		bool done = 0;
+		int pourcentage = 0;
+		std::thread t_refresh(refresh, &done,200,&pourcentage);
+
+		while (current_size != size)
 		{
-			serv1->send_b(line.c_str());
+			if (current_size+rest==size)
+			{
+				file.read(memblock, rest);
+				send(cl_sock, memblock, rest, 0);
+				break;
+			}
+			else
+			{
+				file.read(memblock, len);
+				send(cl_sock, memblock, len, 0);
+				current_size += len;
+				file.seekg(current_size, std::ios::beg);
+			}
+			pourcentage = current_size * 100;
+			pourcentage = pourcentage / size;
 		}
-		serv1->send_b("STOP");
+		done = 1;
+		t_refresh.join();
 		std::cout << "[*] Done" << std::endl;
 	}
 	else
@@ -136,4 +164,21 @@ void Transfer::uploadToClient(Server* serv1, const std::string filename)
 		serv1->send_b("STOP");
 		std::cout << "[*] Error can\'t open file : " << filename << std::endl;
 	}
+}
+
+int Transfer::getSize(std::string filename)
+{
+	std::ifstream file(filename, std::ios::binary);
+	if (file)
+	{
+		std::streampos beg, end;
+		beg = file.tellg();
+		file.seekg(0, std::ios::end);
+		end = file.tellg();
+		file.close();
+		return (end - beg);
+	}
+	else
+		return 0;
+
 }

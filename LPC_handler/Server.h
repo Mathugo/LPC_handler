@@ -36,6 +36,7 @@ public:
 	~Server();
 	std::vector<st_Client> getClients();
 	void setDefaultClient(st_Client _default);
+	st_Client getDefaultClient() const;
 	bool getExit();
 	void setExit(const bool& pexit);
 	bool acceptClient();

@@ -28,5 +28,14 @@ void Animations::Start()
 	system("cls");
 	SetColor(2);
 	std::cout << "[*] You have now access to the payload, be sure to check all options by taping : help" << std::endl;
-	SetColor(10);
+	SetColor(7);
+}
+
+void Animations::Loading(const int& pourcentage)
+{
+		SetColor(6);
+		std::cout << "[*] Please wait until the file is transfered .." << std::endl;
+		std::cout << "[!] " << pourcentage << " % " << std::endl;
+		SetColor(7);
+		Sleep(100);
 }

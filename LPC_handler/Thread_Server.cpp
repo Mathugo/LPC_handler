@@ -56,4 +56,14 @@ void send_t(Server* serv1)
 	}
 }
 
+void refresh(bool* done, const unsigned int& refresh_rate, const int* pourcentage)
+{
+	while (*done != 1)
+	{
+		system("cls");
+		Sleep(refresh_rate);
+		Animations::Loading(*pourcentage);
+
+	}
+}
 
