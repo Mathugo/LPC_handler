@@ -12,3 +12,4 @@ public:
 
 };
 
+// Faire des print status, error, warning, done

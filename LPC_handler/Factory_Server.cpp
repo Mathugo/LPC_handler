@@ -46,6 +46,10 @@ Factory_Server::Factory_Server(Server* serv1,const char* pbuffer) : buffer(pbuff
 	{
 		serv1->setExit(1);
 	}
+	else if (args[0] == "version" && args.size() == 1)
+	{
+		Info::version(serv1);
+	}
 	else if (args[0] == "help" || args[0] == "HELP")
 	{
 		Info::print_help();
@@ -56,7 +60,11 @@ Factory_Server::Factory_Server(Server* serv1,const char* pbuffer) : buffer(pbuff
 	}
 	else if (args[0] == "set_session" && args.size() == 2)
 	{
-		Info::set_session(serv1);
+		Info::set_session(serv1,args[1]);
+	}
+	else if (args[0] == "getcurrentsession" && args.size() == 1)
+	{
+		Info::getcurrentsession(serv1);
 	}
 	else if (args[0] == "getsysinfo")
 	{
