@@ -39,3 +39,35 @@ void Animations::Loading(const int& pourcentage)
 		SetColor(7);
 		Sleep(100);
 }
+
+void print_status(const std::string buffer)
+{
+	SetColor(6);
+	std::cout << "[*] " << buffer << std::endl;
+	SetColor(7);
+}
+
+void print_warning(const std::string buffer)
+{
+	SetColor(14);
+	std::cout << "[!] " << buffer << std::endl;
+	SetColor(7);
+}
+void print_error(const std::string buffer)
+{
+	SetColor(12);
+	std::cout << "[X] " << buffer << std::endl;
+	SetColor(7);
+}
+void print_done(const std::string buffer)
+{
+	SetColor(2);
+	std::cout << "[*] " << buffer << std::endl;
+	SetColor(7);
+}
+void print_debug(const std::string buffer)
+{
+	SetColor(1);
+	std::cout << "[*] " << buffer << std::endl;
+	SetColor(7);
+}

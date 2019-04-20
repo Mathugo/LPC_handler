@@ -11,6 +11,7 @@
 #include <fstream>	
 #include "D:\ESIREM\C++\LPC\LPC\LPC\Socket_.h"
 #include "Factory_Server.h"
+#include "Animations.h"
 
 struct st_Client
 {
@@ -25,7 +26,7 @@ struct st_Client
 class Server : public Socket_
 {
 private:
-	bool exit = 0;
+	bool exit_ = 0;
 	st_Client default_client;
 	int port;
 	std::vector<st_Client> clients;
@@ -39,8 +40,10 @@ public:
 	st_Client getDefaultClient() const;
 
 	void removeDefaultClient();
+	void removeClient(const unsigned short& nb);
 	bool getExit();
 	void setExit(const bool& pexit);
+	void shutdown();
 	bool acceptClient();
 	void send_c();
 	bool send_b(const char* pbuffer);

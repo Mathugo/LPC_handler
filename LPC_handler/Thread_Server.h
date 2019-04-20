@@ -2,6 +2,7 @@
 #include "Server.h"
 #include "Scripts_s.h"
 #include "Factory_Server.h"
+#define REFRESH_RECV 100
 
 class Server;
 void recv_t_old(Server* serv1);

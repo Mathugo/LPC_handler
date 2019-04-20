@@ -44,7 +44,7 @@ Factory_Server::Factory_Server(Server* serv1,const char* pbuffer) : buffer(pbuff
 
 	if (args[0] == "exit" ||args[0] == "EXIT")
 	{
-		serv1->setExit(1);
+		serv1->shutdown();
 	}
 	else if (args[0] == "version" && args.size() == 1)
 	{

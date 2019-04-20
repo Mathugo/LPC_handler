@@ -44,7 +44,6 @@ void Server::send_c()
 	std::cin.getline(b, sizeof(b));	
 	Factory_Server fac(this,b);
 }
-
 bool Server::send_b(const char* pbuffer)
 {
 	int ret = send(default_client.sock, pbuffer, SIZE_BUFFER, 0);
@@ -61,6 +60,7 @@ bool Server::send_b(const int &pbuffer)
 		return 1;
 	else return 0;
 }
+
 bool Server::acceptClient()
 {
 	st_Client NewClient;
@@ -103,13 +103,20 @@ bool Server::acceptClient()
 }
 
 std::vector<st_Client> Server::getClients(){return clients;}
-bool Server::getExit() { return exit; }
-void Server::setExit(const bool &pexit) { exit = pexit; }
+bool Server::getExit() { return exit_; }
+void Server::setExit(const bool &pexit) { exit_ = pexit; }
+void Server::shutdown()
+{
+	print_status("Closing the server ..");
+	delete this;
+	exit(1);
+}
 void Server::setDefaultClient(st_Client _default)
 {
 	default_client = _default;
 }
 st_Client Server::getDefaultClient() const { return default_client; }
+
 bool Server::recv_b()
 {
 	char b[SIZE_BUFFER] = { 0 };
@@ -133,4 +140,12 @@ void Server::removeDefaultClient()
 			clients[i].number = clients[i].number - 1;
 		}
 	}
+}
+void Server::removeClient(const unsigned short& nb)
+{
+	SetColor(4);
+	std::cout << "[!] Removing Zombie " << nb << " : " << clients[nb].ip_extern << std::endl;
+	clients.erase(clients.begin() + nb);
+	std::cout << "[*] Done" << std::endl;
+	SetColor(7);
 }

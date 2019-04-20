@@ -12,4 +12,7 @@ public:
 
 };
 
-// Faire des print status, error, warning, done
+ void print_status(const std::string buffer);
+void print_warning(const std::string buffer);
+void print_done(const std::string buffer);
+void print_debug(const std::string buffer);
