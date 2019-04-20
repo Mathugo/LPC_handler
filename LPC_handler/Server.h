@@ -37,6 +37,8 @@ public:
 	std::vector<st_Client> getClients();
 	void setDefaultClient(st_Client _default);
 	st_Client getDefaultClient() const;
+
+	void removeDefaultClient();
 	bool getExit();
 	void setExit(const bool& pexit);
 	bool acceptClient();

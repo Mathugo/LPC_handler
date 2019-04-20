@@ -17,6 +17,26 @@ std::vector<std::string> split(const char* buffer)
 	return args;
 }
 
+void remove_client(Server* serv1)
+{
+	SetColor(12);
+	std::cout << "[*] Error while sending buffer to the current client :" << serv1->getDefaultClient().ip_extern << std::endl;
+	std::cout << "[*] The client " << serv1->getDefaultClient().ip_extern << " might be deconnected" << std::endl;
+	SetColor(4);
+	std::cout << "[*] Removing .." << std::endl;
+	if (serv1->getClients().size() == 1)
+	{
+		std::cout << "[*] No other active sessions --> shutting down the handler ..." << std::endl;
+		SetColor(7);
+		exit(1);
+	}
+	else
+	{
+		SetColor(7);
+		serv1->removeDefaultClient();
+	}
+
+}
 
 Factory_Server::Factory_Server(Server* serv1,const char* pbuffer) : buffer(pbuffer)
 {
@@ -30,7 +50,6 @@ Factory_Server::Factory_Server(Server* serv1,const char* pbuffer) : buffer(pbuff
 	{
 		Info::print_help();
 	}
-	
 	else if (args[0] == "list")
 	{
 		Info::list(serv1);
@@ -49,7 +68,7 @@ Factory_Server::Factory_Server(Server* serv1,const char* pbuffer) : buffer(pbuff
 	}
 	else
 	{
-		serv1->send_b(buffer.c_str());
+		if (serv1->send_b(buffer.c_str()))	{remove_client(serv1);}
 	}
 }
 

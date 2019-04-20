@@ -16,3 +16,4 @@ public:
 };
 
 std::vector<std::string> split(const char* buffer);
+void remove_client(Server* serv1);

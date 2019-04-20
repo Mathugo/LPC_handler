@@ -5,26 +5,31 @@ void Info::list_scripts()
 	SetColor(2);
 	std::cout << "[\t\t------------ List of all scripts ------------" << std::endl;
 	SetColor(14);
-	std::cout << "#---------------------------- Usefull ----------------------------#" << std::endl;
+	std::cout << "#---------------------------- Usefull -----------------------------#" << std::endl;
 	SetColor(6);
 	std::cout << "[ upload \"filename\"\t\t\t: upload a file in the current directory" << std::endl;
 	std::cout << "[ upload_exe \"filename\"\t\t\t: upload and exe a file in the current directory" << std::endl;
 	std::cout << "[ download \"filename\"\t\t\t: download the file's target wanted" << std::endl;
 	std::cout << "[ download_dir \"filename\"\t\t: download the target directory" << std::endl;
+	SetColor(14);
+	std::cout << "#------------------------- System commands ------------------------#" << std::endl;
+	SetColor(6);
 	std::cout << "[ self_persistence <keyname>\t\t: Put a persistence on the payload" << std::endl;
 	std::cout << "[ default name is Windows_Update" << std::endl;
 	std::cout << "[ persistence <file_name> <keyname>\t: Put a persistence on a given file" << std::endl;
 	std::cout << "[ default keyname is Windows_Update" << std::endl;
-	std::cout << "[ shell <command>\t\t\t: Run a shell command" << std::endl;
+	std::cout << "[ cmd <command>\t\t\t\t: Run a command using cmd" << std::endl;
+	std::cout << "[ powershell <command>\t\t\t:Run a command using powershell" << std::endl;
+	std::cout << "[ exe_admin <file_name>\t\t\t: Execute a file (.exe) in admin mode" << std::endl;
+	std::cout << "[ exe <file_name>\t\t\t: Execute a file" << std::endl;
 	SetColor(14);
-	std::cout << "#---------------------------- Exploit ---------------------------#" << std::endl;
+	std::cout << "#---------------------------- Exploit ------------------------------#" << std::endl;
 	SetColor(6);
 	std::cout << "[ geo\t\t\t\t: Give the localization of the current session" << std::endl;
 	std::cout << "[ enum_web\t\t\t: enum all web passwords on the current session" << std::endl;
 	std::cout << "[ screenshot <name>\t\t: Take a screenshot from the current target screen" << std::endl;
-	std::cout << "[ ask <exe> <name>\t\t: Upload and execute a given file as administrator" << std::endl;
+	std::cout << "[ ask <exe> <name>\t\t: Upload and execute a given file as administrator with a custom name" << std::endl;
 	std::cout << "[ you can choose a new file_name, default is Windows_Update.exe" << std::endl;
-
 
 	SetColor(7);
 }
@@ -43,7 +48,7 @@ void Info::print_help()
 	std::cout << "[ set_session\t\t: Switch to an another session" << std::endl;
 	std::cout << "[ list\t\t\t: list all actives sessions" << std::endl;
 	std::cout << "[ pwd\t\t\t: print the trojan emplacement" << std::endl;
-	std::cout << "[ ls\t\t\t: see all files at the current directory" << std::endl;
+	std::cout << "[ ls\t\t\t: see all files in the current directory" << std::endl;
 	std::cout << "[ exit\t\t\t: exit the program" << std::endl;
 	SetColor(7);
 }

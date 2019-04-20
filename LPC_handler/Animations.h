@@ -1,7 +1,7 @@
 #pragma once
 #include "scripts_s.h"
 #include <iostream>
-#define VERSION "1.0"
+#define VERSION "1.1"
 #define UPDATE "update function()"
 class Animations
 {

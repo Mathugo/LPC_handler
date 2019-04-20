@@ -47,7 +47,8 @@ void Server::send_c()
 
 bool Server::send_b(const char* pbuffer)
 {
-	if(send(default_client.sock, pbuffer, SIZE_BUFFER, 0) == 0)
+	int ret = send(default_client.sock, pbuffer, SIZE_BUFFER, 0);
+	if(ret == 0 || ret == SOCKET_ERROR)
 		return 1;
 	else
 		return 0;
@@ -55,7 +56,8 @@ bool Server::send_b(const char* pbuffer)
 bool Server::send_b(const int &pbuffer)
 {
 	std::string s = std::to_string(pbuffer);
-	if (send(default_client.sock, s.c_str(), SIZE_BUFFER, 0) == 0)
+	int ret = send(default_client.sock, s.c_str(), SIZE_BUFFER, 0);
+	if (ret == 0 || ret == SOCKET_ERROR)
 		return 1;
 	else return 0;
 }
@@ -119,4 +121,16 @@ bool Server::recv_b()
 	}
 	else
 		return 0;
+}
+
+void Server::removeDefaultClient()
+{
+	clients.erase(clients.begin() + default_client.number);
+	if (clients.size() != 1)
+	{
+		for (int i = 0; i < clients.size(); i++)
+		{
+			clients[i].number = clients[i].number - 1;
+		}
+	}
 }
