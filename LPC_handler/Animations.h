@@ -1,8 +1,9 @@
 #pragma once
 #include "scripts_s.h"
 #include <iostream>
-#define VERSION "1.1"
-#define UPDATE "update function()"
+#define VERSION "1.3"
+#define UPDATE "Kill() function"
+
 class Animations
 {
 public:
@@ -11,8 +12,8 @@ public:
 	static void Loading(const int &pourcentage);
 
 };
-
- void print_status(const std::string buffer);
+void print_error(const std::string buffer);
+void print_status(const std::string buffer);
 void print_warning(const std::string buffer);
 void print_done(const std::string buffer);
 void print_debug(const std::string buffer);

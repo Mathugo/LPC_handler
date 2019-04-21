@@ -10,8 +10,9 @@
 #include "Thread_Server.h"
 
 
-int main()
+int main(int argc, char *argv[])
 {
+
 	const unsigned short port = 9997;
 	std::string enter;
 

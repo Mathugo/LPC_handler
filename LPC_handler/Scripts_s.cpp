@@ -7,9 +7,9 @@ void Info::list_scripts()
 	SetColor(14);
 	std::cout << "#---------------------------- Folder action -----------------------------#" << std::endl;
 	SetColor(6);
-	std::cout << "[ pwd\t\t\t: Print the trojan emplacement" << std::endl;
-	std::cout << "[ ls\t\t\t: See all files in the current directory" << std::endl;
-	std::cout << "[ getTemp\t\t\t: Get the location of the temp directory" << std::endl;
+	std::cout << "[ pwd\t\t\t\t\t: Print the trojan emplacement" << std::endl;
+	std::cout << "[ ls\t\t\t\t\t: See all files in the current directory" << std::endl;
+	std::cout << "[ getTemp\t\t\t\t: Get the location of the temp directory" << std::endl;
 	std::cout << "[ upload \"filename\"\t\t\t: Upload a file in the current directory" << std::endl;
 	std::cout << "[ upload_exe \"filename\"\t\t\t: Upload and exe a file in the current directory" << std::endl;
 	std::cout << "[ download \"filename\"\t\t\t: Download the file's target wanted" << std::endl;
@@ -17,6 +17,9 @@ void Info::list_scripts()
 	SetColor(14);
 	std::cout << "#------------------------- System commands ------------------------#" << std::endl;
 	SetColor(6);
+	std::cout << "[ ps\t\t\t\t\t: List all process with their PID and name" << std::endl;
+	std::cout << "[ kill -p <pid>\t\t\t\t: Kill a process by its PID" << std::endl;
+	std::cout << "[ kill -n <name>\t\t\t: Kill a process by its name" << std::endl;
 	std::cout << "[ self_persistence <keyname>\t\t: Put a persistence on the payload" << std::endl;
 	std::cout << "[ default name is Windows_Update" << std::endl;
 	std::cout << "[ persistence <file_name> <keyname>\t: Put a persistence on a given file" << std::endl;

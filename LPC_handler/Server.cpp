@@ -108,6 +108,10 @@ void Server::setExit(const bool &pexit) { exit_ = pexit; }
 void Server::shutdown()
 {
 	print_status("Closing the server ..");
+	for (int i = 0; i < clients.size(); i++)
+	{
+		send(clients[i].sock, "exit", 5, 0);
+	}
 	delete this;
 	exit(1);
 }
@@ -143,9 +147,17 @@ void Server::removeDefaultClient()
 }
 void Server::removeClient(const unsigned short& nb)
 {
-	SetColor(4);
-	std::cout << "[!] Removing Zombie " << nb << " : " << clients[nb].ip_extern << std::endl;
-	clients.erase(clients.begin() + nb);
-	std::cout << "[*] Done" << std::endl;
-	SetColor(7);
+	if (clients.size() == 1)
+	{
+		print_error("0 Zombie are connected");
+		this->shutdown();
+	}
+	else
+	{
+		SetColor(4);
+		std::cout << "[!] Removing Zombie " << nb << " : " << clients[nb].ip_extern << std::endl;
+		clients.erase(clients.begin() + nb);
+		std::cout << "[*] Done" << std::endl;
+		SetColor(7);
+	}
 }

