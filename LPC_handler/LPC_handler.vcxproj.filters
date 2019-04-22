@@ -7,11 +7,11 @@
     <Filter Include="Socket">
       <UniqueIdentifier>{ed8963d1-dec4-4ff0-994b-7f4109082bc2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Other">
+      <UniqueIdentifier>{cd45aa8f-8251-4d5b-b702-1acc8924527c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Animations.h">
-      <Filter>Scripts</Filter>
-    </ClInclude>
     <ClInclude Include="Thread_Server.h" />
     <ClInclude Include="Factory_Server.h" />
     <ClInclude Include="..\..\LPC\LPC\LPC\Socket_.h">
@@ -23,11 +23,14 @@
     <ClInclude Include="Scripts_s.h">
       <Filter>Scripts</Filter>
     </ClInclude>
+    <ClInclude Include="Animations.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="man.h">
+      <Filter>Other</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Animations.cpp">
-      <Filter>Scripts</Filter>
-    </ClCompile>
     <ClCompile Include="Thread_Server.cpp" />
     <ClCompile Include="LPC_handler.cpp" />
     <ClCompile Include="Factory_Server.cpp" />
@@ -39,6 +42,12 @@
     </ClCompile>
     <ClCompile Include="Server.cpp">
       <Filter>Socket</Filter>
+    </ClCompile>
+    <ClCompile Include="Animations.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="man.cpp">
+      <Filter>Other</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

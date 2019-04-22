@@ -36,14 +36,13 @@ void listen_client(Server* serv1, const unsigned short nb)
 				Transfer::downloadFromClient(serv1, args[1]);
 			}
 			else
-				std::cout << "[*] Zombie " << nb + 1 << ": " << buffer << std::endl;
+				print_status("Zombie : " + std::to_string(nb + 1) + ": " + buffer);
+				//std::cout << "[*] Zombie " << nb + 1 << ": " << buffer << std::endl;
 		}
 		else
 		{
-			SetColor(14);
-			std::cout << "[!] Zombie : " << nb+1 << " is unreachable ..." << std::endl;
+			print_warning("Zombie : " + std::to_string(nb + 1) + " is unreachable ..");
 			serv1->removeClient(nb);
-			SetColor(7);
 		}
 		Sleep(REFRESH_RECV);
 
@@ -62,9 +61,7 @@ void send_t(Server* serv1)
 
 	while (!serv1->getExit())
 	{
-		SetColor(8);
 		serv1->send_c();
-		SetColor(7);
 	}
 }
 

@@ -2,6 +2,7 @@
 #include <vector>
 #include "Server.h"
 #include "Scripts_s.h"
+#include "man.h"
 
 class Server;
 

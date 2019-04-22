@@ -71,6 +71,10 @@ Factory_Server::Factory_Server(Server* serv1,const char* pbuffer) : buffer(pbuff
 	{
 		Info::list_scripts();
 	}
+	else if (args[0] == "man" && args.size() == 2)
+	{
+		Man man(args[1]);
+	}
 	else
 	{
 		if (serv1->send_b(buffer.c_str()))	{remove_client(serv1);}

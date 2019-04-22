@@ -27,9 +27,7 @@ int main(int argc, char *argv[])
 
 	std::vector<std::thread> thread_list;
 
-	SetColor(14);
 	Server* serv1 = new Server(port);
-	SetColor(7);
 	
 	bool test = 0;
 	int nb = 0;
@@ -54,12 +52,12 @@ int main(int argc, char *argv[])
 		Sleep(500);
 	}
 
-	std::cout << "[*] Closing thread ..." << std::endl;
+	print_warning("Closing threads ..");
 	delete serv1;
 	t_send.join();
 	for (int i = 0; i < thread_list.size(); i++)
 	{
 		thread_list[i].join();
 	}
-	std::cout << "[*] Done" << std::endl;
+	print_done("Done");
 }

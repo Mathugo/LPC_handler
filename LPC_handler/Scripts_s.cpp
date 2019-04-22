@@ -4,19 +4,22 @@ void Info::list_scripts()
 {
 	SetColor(2);
 	std::cout << "[\t\t------------ List of all scripts ------------" << std::endl;
+	std::cout << "[ You can enter : man <command> for more informations about a command" << std::endl;
+	std::cout << "[	Man is only for exploit for transfer scripts " << std::endl;
 	SetColor(14);
 	std::cout << "#---------------------------- Folder action -----------------------------#" << std::endl;
 	SetColor(6);
-	std::cout << "[ pwd\t\t\t\t\t: Print the trojan emplacement" << std::endl;
-	std::cout << "[ ls\t\t\t\t\t: See all files in the current directory" << std::endl;
+	std::cout << "[ pwd\t\t\t\t\t: Print the current path" << std::endl;
+	std::cout << "[ ls\t\t\t\t\t: List all files and folders in the current directory" << std::endl;
 	std::cout << "[ getTemp\t\t\t\t: Get the location of the temp directory" << std::endl;
 	std::cout << "[ upload \"filename\"\t\t\t: Upload a file in the current directory" << std::endl;
 	std::cout << "[ upload_exe \"filename\"\t\t\t: Upload and exe a file in the current directory" << std::endl;
-	std::cout << "[ download \"filename\"\t\t\t: Download the file's target wanted ------NOT IMPLEMENTED" << std::endl;
+	std::cout << "[ download \"filename\"\t\t\t: Download a file located in the current directory (you can target an another using cd)" << std::endl;
 	std::cout << "[ download_dir \"filename\"\t\t: Download the target directory   ------NOT IMPLEMENTED" << std::endl;
 	SetColor(14);
 	std::cout << "#------------------------- System commands ------------------------#" << std::endl;
 	SetColor(6);
+	std::cout << "[ cd <directory>\t\t\t\t: Change directory" << std::endl;
 	std::cout << "[ ps\t\t\t\t\t: List all process with their PID and name" << std::endl;
 	std::cout << "[ kill -p <pid>\t\t\t\t: Kill a process by its PID" << std::endl;
 	std::cout << "[ kill -n <name>\t\t\t: Kill a process by its name" << std::endl;
@@ -47,6 +50,8 @@ void Info::print_help()
 	std::cout << "[\t\t------------ List of Commands ------------\t\t]" << std::endl;
 	SetColor(6);
 	std::cout << "[ help\t\t\t: list all commands" << std::endl;
+	std::cout << "[ man <command>\t\t: Give more informations about a command" << std::endl;
+	std::cout << "[Man is only for exploit and transfer scripts " << std::endl;
 	std::cout << "[ list_scripts\t\t: List all scripts available" << std::endl;
 	std::cout << "[ version\t\t: Print the current version and changes" << std::endl;
 	std::cout << "[ getcurrentsession\t: Print the information about the current session" << std::endl;
@@ -65,14 +70,14 @@ void Info::print_help()
 	std::vector<st_Client> clients = server->getClients();
 	if (nb <= clients.size())
 	{
-		std::cout << "Switching with session "+nb_session+" ..." << std::endl;
+		print_status("Switching with session " + nb_session+" ...");
 		server->setDefaultClient(clients[nb-1]);
-		std::cout << "Done" << std::endl;
+		print_done("Done");
 		return 1;
 	}
 	else
 	{
-		server->send_b(("[*] Can't find : " + nb_session).c_str());
+		print_error("Can't find " + nb_session);
 		return 0;
 	}
 }

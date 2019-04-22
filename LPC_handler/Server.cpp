@@ -27,8 +27,7 @@ Server::Server(const int pPort) : port(pPort), Socket_()
 		std::cout << "Error listen : " << WSAGetLastError();
 		this->setError(1);
 	}
-
-	std::cout << "Server started on :  " << port << std::endl;
+	print_status("Server started on : " + std::to_string(port));
 }
 Server::~Server() 
 {

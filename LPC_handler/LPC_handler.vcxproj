@@ -154,6 +154,7 @@
     <ClInclude Include="..\..\LPC\LPC\LPC\Socket_.h" />
     <ClInclude Include="Animations.h" />
     <ClInclude Include="Factory_Server.h" />
+    <ClInclude Include="man.h" />
     <ClInclude Include="Scripts_s.h" />
     <ClInclude Include="Server.h" />
     <ClInclude Include="Thread_Server.h" />
@@ -163,6 +164,7 @@
     <ClCompile Include="Animations.cpp" />
     <ClCompile Include="Factory_Server.cpp" />
     <ClCompile Include="LPC_handler.cpp" />
+    <ClCompile Include="man.cpp" />
     <ClCompile Include="Scripts_s.cpp" />
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="Thread_Server.cpp" />
