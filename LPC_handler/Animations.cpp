@@ -5,7 +5,7 @@ void Animations::Welcome(const unsigned short& port)
 {
 	std::cout << "BOTNET Version : " << VERSION << std::endl;
 	std::cout << "Last update : " << UPDATE << std::endl << std::endl;
-	SetColor(2);
+	SetColor(6);
 
 	std::cout <<"\t\t[ #--------------#	   Welcome to \t\t#------------#]" << std::endl;
 	std::cout <<"\t\t[ #--------------#       Le Petit Cheval        #------------#]" << std::endl;
@@ -16,7 +16,7 @@ void Animations::Welcome(const unsigned short& port)
 	std::cout <<"\t\t[ # Script Developers : Hugo Math && Lucien Leseigle         #]" << std::endl;
 	std::cout <<"\t\t[ # Contributors      : Hugo Math && Lucien Leseigle         #]" << std::endl;
 	std::cout <<"[*] WARNING this handler only works on Windows" << std::endl << std::endl;
-	SetColor(10);
+	SetColor(14);
 	std::cout << "Enter : listen to start listenning to clients at the port : " << port<< std::endl;
 	std::cout << "Enter : exit to exit the handler" << std::endl;
 	SetColor(7);

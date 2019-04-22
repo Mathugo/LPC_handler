@@ -1,4 +1,5 @@
 #include "Factory_Server.h"
+
 std::vector<std::string> split(const char* buffer)
 {
 	std::string s = std::string(buffer);
@@ -65,10 +66,6 @@ Factory_Server::Factory_Server(Server* serv1,const char* pbuffer) : buffer(pbuff
 	else if (args[0] == "getcurrentsession" && args.size() == 1)
 	{
 		Info::getcurrentsession(serv1);
-	}
-	else if (args[0] == "getsysinfo")
-	{
-		Info::getsysinfo(serv1);
 	}
 	else if (args[0] == "list_scripts")
 	{

