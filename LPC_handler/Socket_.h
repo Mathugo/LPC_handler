@@ -1,11 +1,12 @@
 #pragma once
 #ifdef _WIN32
+
 #include <WinSock2.h>
 #include <Windows.h>
 #include <WS2tcpip.h>
 #pragma comment(lib, "Ws2_32.lib")
-#endif
-#ifdef linux
+#else
+
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -35,7 +36,9 @@ class Socket_
 private:
 
 	char type_[256] = { 0 };
+#ifdef _WIN32
 	WSAData wsaData;
+#endif
 	SOCKET sock;
 	SOCKET* sock_ = &sock;
 	bool error = 0;

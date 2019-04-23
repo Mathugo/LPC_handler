@@ -14,9 +14,6 @@
   <ItemGroup>
     <ClInclude Include="Thread_Server.h" />
     <ClInclude Include="Factory_Server.h" />
-    <ClInclude Include="..\..\LPC\LPC\LPC\Socket_.h">
-      <Filter>Socket</Filter>
-    </ClInclude>
     <ClInclude Include="Server.h">
       <Filter>Socket</Filter>
     </ClInclude>
@@ -29,6 +26,9 @@
     <ClInclude Include="man.h">
       <Filter>Other</Filter>
     </ClInclude>
+    <ClInclude Include="Socket_.h">
+      <Filter>Socket</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Thread_Server.cpp" />
@@ -36,9 +36,6 @@
     <ClCompile Include="Factory_Server.cpp" />
     <ClCompile Include="Scripts_s.cpp">
       <Filter>Scripts</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\LPC\LPC\LPC\Socket_.cpp">
-      <Filter>Socket</Filter>
     </ClCompile>
     <ClCompile Include="Server.cpp">
       <Filter>Socket</Filter>
@@ -48,6 +45,9 @@
     </ClCompile>
     <ClCompile Include="man.cpp">
       <Filter>Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Socket_.cpp">
+      <Filter>Socket</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
