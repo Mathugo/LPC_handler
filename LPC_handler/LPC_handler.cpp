@@ -4,6 +4,7 @@
 #include <WinSock2.h>
 #include <Windows.h>
 #include <WS2tcpip.h>
+
 #pragma comment(lib, "Ws2_32.lib")
 
 #else
@@ -27,7 +28,6 @@ typedef struct in_addr IN_ADDR;
 #include "Server.h"
 #include <vector>
 #include <thread>
-#include <Windows.h>
 #include "Animations.h"
 #include "Thread_Server.h"
 

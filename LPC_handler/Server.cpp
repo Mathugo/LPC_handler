@@ -11,20 +11,32 @@ Server::Server(const int pPort) : port(pPort), Socket_()
 	
 	if (*(this->getSock()) == INVALID_SOCKET)
 	{
+#ifdef _WIN32
 		std::cout << "Erreur initialisation socket : " << WSAGetLastError();
+#else
+		print_error("Error initialisation socket : " + errno);
+#endif
 		this->setError(1);
 	}
 	
 	int res = bind(*this->getSock(), (sockaddr*)&addr, sizeof(addr));
 	if (res != 0)
 	{
+#ifdef _WIN32
 		std::cout << "Error bind : " << WSAGetLastError();
+#else
+		print_error("Error bind : " + errno);
+#endif
 		this->setError(1);
 	}
 	res = listen(*this->getSock(), SOMAXCONN);
 	if (res != 0)
 	{
+#ifdef _WIN32
 		std::cout << "Error listen : " << WSAGetLastError();
+#else
+		print_status("Error listen : " + errno);
+#endif
 		this->setError(1);
 	}
 	print_status("Server started on : " + std::to_string(port));

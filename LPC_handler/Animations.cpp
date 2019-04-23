@@ -40,6 +40,8 @@ void Animations::Loading(const int& pourcentage)
 		std::this_thread::sleep_for(std::chrono::milliseconds(100));
 }
 
+#ifdef _WIN32
+
 void print_status(const std::string buffer)
 {
 	SetColor(6);
@@ -71,3 +73,53 @@ void print_debug(const std::string buffer)
 	std::cout << "[*] " << buffer << std::endl;
 	SetColor(7);
 }
+#else
+
+#ifndef _COLORS_
+#define _COLORS_
+
+#define RST  "\x1B[0m"
+#define KRED  "\x1B[31m"
+#define KGRN  "\x1B[32m"
+#define KYEL  "\x1B[33m"
+#define KBLU  "\x1B[34m"
+#define KMAG  "\x1B[35m"
+#define KCYN  "\x1B[36m"
+#define KWHT  "\x1B[37m"
+
+#define FRED(x) KRED x RST
+#define FGRN(x) KGRN x RST
+#define FYEL(x) KYEL x RST
+#define FBLU(x) KBLU x RST
+#define FMAG(x) KMAG x RST
+#define FCYN(x) KCYN x RST
+#define FWHT(x) KWHT x RST
+
+#define BOLD(x) "\x1B[1m" x RST
+#define UNDL(x) "\x1B[4m" x RST
+
+#endif 
+void print_status(const std::string buffer)
+{
+	std::cout << "[*] " << FYEL(buffer) << std::endl;
+	
+}
+
+void print_warning(const std::string buffer)
+{
+	std::cout << "[!] " << BOLD(FYEL(buffer)) << std::endl;
+}
+void print_error(const std::string buffer)
+{
+	std::cout << "[X] " << BOLD(FRED(buffer)) <<  std::endl;
+}
+void print_done(const std::string buffer)
+{
+	std::cout << "[*] " << BOLD(FGRN(buffer)) << std::endl;
+}
+void print_debug(const std::string buffer)
+{
+	std::cout << "[*] " << FBLU(buffer) << std::endl;
+}
+
+#endif

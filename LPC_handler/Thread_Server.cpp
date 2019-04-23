@@ -1,20 +1,5 @@
 #include "Thread_Server.h"
 
-void recv_t_old(Server* serv1)
-{
-	while (!serv1->getExit())
-	{
-		char buffer[256]{ 0 };
-		std::vector<st_Client> clients = serv1->getClients();
-		for (int i = 0; i < clients.size(); i++)
-		{
-			recv(clients[i].sock, buffer, sizeof(buffer), 0);
-			std::cout << "[*] Client " << clients[i].number << " : " << buffer << std::endl;
-
-		}
-		Sleep(200);
-	}
-}
 
 void listen_client(Server* serv1, const unsigned short nb)
 {
