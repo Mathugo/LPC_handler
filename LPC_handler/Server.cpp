@@ -84,8 +84,7 @@ bool Server::acceptClient()
 
 		NewClient.ip_extern = buffer;
 		clients.push_back(NewClient);
-		std::cout << "New client accepted : " << NewClient.ip_extern << "/" << addr.sin_port << std::endl;
-
+		print_done("New client accepted : " + NewClient.ip_extern + "/" + std::to_string(addr.sin_port));
 
 		if (clients.size() == 1) 
 		{

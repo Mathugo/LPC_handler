@@ -7,7 +7,7 @@ void Info::list_scripts()
 	std::cout << "[ You can enter : man <command> for more informations about a command" << std::endl;
 	std::cout << "[	Man is only for exploit for transfer scripts " << std::endl;
 	SetColor(14);
-	std::cout << "#---------------------------- Folder action -----------------------------#" << std::endl;
+	std::cout << "#------------------------------ Folder action -----------------------------#" << std::endl;
 	SetColor(6);
 	std::cout << "[ pwd\t\t\t\t\t: Print the current path" << std::endl;
 	std::cout << "[ ls\t\t\t\t\t: List all files and folders in the current directory" << std::endl;
@@ -17,7 +17,7 @@ void Info::list_scripts()
 	std::cout << "[ download \"filename\"\t\t\t: Download a file located in the current directory (you can target an another using cd)" << std::endl;
 	std::cout << "[ download_dir \"filename\"\t\t: Download the target directory   ------NOT IMPLEMENTED" << std::endl;
 	SetColor(14);
-	std::cout << "#------------------------- System commands ------------------------#" << std::endl;
+	std::cout << "#----------------------------- System commands ----------------------------#" << std::endl;
 	SetColor(6);
 	std::cout << "[ cd <directory>\t\t\t\t: Change directory" << std::endl;
 	std::cout << "[ ps\t\t\t\t\t: List all process with their PID and name" << std::endl;
@@ -25,14 +25,14 @@ void Info::list_scripts()
 	std::cout << "[ kill -n <name>\t\t\t: Kill a process by its name" << std::endl;
 	std::cout << "[ self_persistence <keyname>\t\t: Put a persistence on the payload" << std::endl;
 	std::cout << "[ default name is Windows_Update" << std::endl;
-	std::cout << "[ persistence <file_name> <keyname>\t: Put a persistence on a given file in the current directory" << std::endl;
+	std::cout << "[ persistence <file_name> <keyname>\t: Put a persistence on a given file in the current directory----NOT IMPLEMENTED" << std::endl;
 	std::cout << "[ default keyname is Windows_Update" << std::endl;
 	std::cout << "[ cmd <command>\t\t\t\t: Run a command using cmd" << std::endl;
 	std::cout << "[ powershell <command>\t\t\t:Run a command using powershell" << std::endl;
 	std::cout << "[ exe_admin <file_name>\t\t\t: Execute a file (.exe) in admin mode" << std::endl;
 	std::cout << "[ exe <file_name>\t\t\t: Execute a file" << std::endl;
 	SetColor(14);
-	std::cout << "#---------------------------- Exploit ------------------------------#" << std::endl;
+	std::cout << "#-------------------------------- Exploit ----------------------------------#" << std::endl;
 	SetColor(6);
 	std::cout << "[ geo\t\t\t\t: Give the localization of the current session------NOT IMPLEMENTED" << std::endl;
 	std::cout << "[ enum_web\t\t\t: enum all web passwords on the current session------NOT IMPLEMENTED" << std::endl;
@@ -84,25 +84,20 @@ void Info::print_help()
 
  void Info::list(Server* server)
 {
-	SetColor(6);
-	std::cout << "[*] Enumming clients..." << std::endl;
+	print_status("Enuming clients...");
 	SetColor(2);
 	std::vector<st_Client> clients = server->getClients();
 	for (int i = 0; i < clients.size(); i++)
 	{
-		std::cout << "Zombie " << clients[i].number << " Ip : " << clients[i].ip_extern <<  std::endl;
+		print_done("Zombie " + std::to_string(clients[i].number) + " Ip : " + clients[i].ip_extern);
 	}
-	SetColor(7);
-
 }
 
 
 void Info::version(Server* server)
 {
-	SetColor(2);
-	std::cout << "BOTNET Version : " << VERSION << std::endl;
-	std::cout << "Last update : " << UPDATE << std::endl << std::endl;
-	SetColor(7);
+	print_debug("BOTNET version : " + std::string(VERSION));
+	print_debug("Last update : " + std::string(UPDATE));
 }
 void Info::getcurrentsession(Server* server)
 {

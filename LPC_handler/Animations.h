@@ -1,8 +1,8 @@
 #pragma once
 #include "scripts_s.h"
 #include <iostream>
-#define VERSION "1.3"
-#define UPDATE "Kill() function"
+#define VERSION "1.4"
+#define UPDATE "download() function"
 
 class Animations
 {

