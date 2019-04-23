@@ -125,7 +125,8 @@ bool Server::recv_b()
 	if ((recv(*this->getSock(), b, sizeof(b), 0) >= 0))
 	{
 		this->setBuffer(b);
-		Sleep(300);
+		std::this_thread::sleep_for(std::chrono::milliseconds(300));
+		//Sleep(300);
 		return 1;
 	}
 	else

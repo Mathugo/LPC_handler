@@ -6,9 +6,8 @@
 #include <Windows.h>
 #include <WS2tcpip.h>
 #pragma comment(lib, "Ws2_32.lib")
-#endif
 
-#ifdef linux
+#else
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>

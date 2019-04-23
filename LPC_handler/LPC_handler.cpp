@@ -6,8 +6,7 @@
 #include <WS2tcpip.h>
 #pragma comment(lib, "Ws2_32.lib")
 
-#endif
-#ifdef linux
+#else
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -61,7 +60,9 @@ int main(int argc, char *argv[])
 	
 	std::thread t_send(send_t, serv1);
 	
-	Sleep(3000);
+//	Sleep(3000);
+	std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+
 	Animations::Start();
 	
 	while (serv1->getError() != 1 || serv1->getExit() != 1)
@@ -72,7 +73,8 @@ int main(int argc, char *argv[])
 			thread_list.push_back(std::thread(listen_client, serv1, nb));
 			nb++;
 		}
-		Sleep(500);
+		std::this_thread::sleep_for(std::chrono::milliseconds(500));
+		//Sleep(500);
 	}
 
 	print_warning("Closing threads ..");

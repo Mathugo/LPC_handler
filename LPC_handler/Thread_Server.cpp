@@ -43,7 +43,9 @@ void listen_client(Server* serv1, const unsigned short nb)
 			print_warning("Zombie : " + std::to_string(nb + 1) + " is unreachable ..");
 			serv1->removeClient(nb);
 		}
-		Sleep(REFRESH_RECV);
+		//Sleep(REFRESH_RECV);
+		std::this_thread::sleep_for(std::chrono::milliseconds(REFRESH_RECV));
+
 
 	}
 }
@@ -52,7 +54,8 @@ void accept_t(Server* serv1)
 	while (serv1->getExit() != 1)
 	{
 		serv1->acceptClient();
-		Sleep(1000);
+		std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+		//Sleep(1000);
 	}
 }
 void send_t(Server* serv1)
@@ -69,7 +72,8 @@ void refresh(bool* done, const unsigned int& refresh_rate, const int* pourcentag
 	while (*done != 1)
 	{
 		system("cls");
-		Sleep(refresh_rate);
+		std::this_thread::sleep_for(std::chrono::milliseconds(refresh_rate));
+		//Sleep(refresh_rate);
 		Animations::Loading(*pourcentage);
 
 	}
