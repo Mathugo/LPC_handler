@@ -1,5 +1,5 @@
 #pragma once
-#include "scripts_s.h"
+#include "Scripts_s.h"
 #include <iostream>
 #define VERSION "1.4"
 #define UPDATE "download() function"
