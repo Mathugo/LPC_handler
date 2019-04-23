@@ -37,7 +37,7 @@ void Animations::Loading(const int& pourcentage)
 		std::cout << "[*] Please wait until the file is transfered .." << std::endl;
 		std::cout << "[!] " << pourcentage << " % " << std::endl;
 		SetColor(7);
-		Sleep(100);
+		std::this_thread::sleep_for(std::chrono::milliseconds(100));
 }
 
 void print_status(const std::string buffer)

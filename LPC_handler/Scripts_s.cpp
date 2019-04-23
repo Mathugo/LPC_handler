@@ -148,7 +148,8 @@ void Transfer::uploadToClient(Server* serv1,SOCKET cl_sock, const std::string fi
 		int current_size = 0;
 		char memblock[len] = { 0 };
 		const int rest = size % len;
-		Sleep(2000);
+		std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+		//Sleep(2000);
 		int nb = 0;
 		file.seekg(0, std::ios::beg);
 		bool done = 0;
@@ -201,7 +202,8 @@ void Transfer::downloadFromClient(Server* serv1,SOCKET cl_sock, const std::strin
 		int current_size = 0;
 		char memblock[len] = { 0 };
 		const int rest = size % len;
-		Sleep(2000);
+		std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+	//	Sleep(2000);
 		int pourcentage = 0;
 		bool done = 0;
 		std::thread t_refresh(refresh, &done, 200, &pourcentage);
@@ -277,7 +279,8 @@ void Transfer::recvString(SOCKET cl_sock,const unsigned short nb)
 		}
 		recv(cl_sock, buffer, BUFFER_LEN, 0);
 		print_status(std::string(buffer));
-		Sleep(100);
+		std::this_thread::sleep_for(std::chrono::milliseconds(100));
+	//	Sleep(100);
 	}
 	
 }
