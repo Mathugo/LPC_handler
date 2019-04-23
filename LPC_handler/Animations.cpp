@@ -101,25 +101,25 @@ void print_debug(const std::string buffer)
 #endif 
 void print_status(const std::string buffer)
 {
-	std::cout << "[*] " << FYEL(buffer) << std::endl;
+	std::cout  << FYEL("[*] "+buffer) << std::endl;
 	
 }
 
 void print_warning(const std::string buffer)
 {
-	std::cout << "[!] " << BOLD(FYEL(buffer)) << std::endl;
+	std::cout << BOLD(FYEL("[!] "+buffer)) << std::endl;
 }
 void print_error(const std::string buffer)
 {
-	std::cout << "[X] " << BOLD(FRED(buffer)) <<  std::endl;
+	std::cout << BOLD(FRED("[X] "+buffer)) <<  std::endl;
 }
 void print_done(const std::string buffer)
 {
-	std::cout << "[*] " << BOLD(FGRN(buffer)) << std::endl;
+	std::cout << BOLD(FGRN("[*] "buffer)) << std::endl;
 }
 void print_debug(const std::string buffer)
 {
-	std::cout << "[*] " << FBLU(buffer) << std::endl;
+	std::cout << FBLU("[*] "buffer) << std::endl;
 }
 
 #endif
