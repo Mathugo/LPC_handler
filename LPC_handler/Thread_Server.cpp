@@ -35,10 +35,6 @@ void listen_client(Server* serv1, const unsigned short nb)
 			{
 				Transfer::downloadFromClient(serv1,clients[nb].sock, args[1]);
 			}
-			else if (args[0] == "str" && args.size() == 1)
-			{
-				Transfer::recvString(clients[nb].sock, nb);
-			}
 			else
 				print_status("Zombie " + std::to_string(nb + 1) + ": " + buffer);
 		}

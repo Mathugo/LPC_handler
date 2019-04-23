@@ -93,7 +93,6 @@ void Info::print_help()
 	}
 }
 
-
 void Info::version(Server* server)
 {
 	print_debug("BOTNET version : " + std::string(VERSION));
@@ -277,7 +276,8 @@ void Transfer::recvString(SOCKET cl_sock,const unsigned short nb)
 
 		}
 		recv(cl_sock, buffer, BUFFER_LEN, 0);
-		print_status(buffer);
+		print_status(std::string(buffer));
+		Sleep(100);
 	}
 	
 }

@@ -1,15 +1,37 @@
 #pragma once
 #pragma warning(disable:4996) 
+
+#ifdef _WIN32
 #include <WinSock2.h>
-#include <iostream>
-#include <WS2tcpip.h>
-#include <string.h>
 #include <Windows.h>
+#include <WS2tcpip.h>
+#pragma comment(lib, "Ws2_32.lib")
+#endif
+
+#ifdef linux
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <unistd.h> /* close */
+#include <netdb.h> /* gethostbyname */
+#define INVALID_SOCKET -1
+#define SOCKET_ERROR -1
+#define closesocket(s) close(s)
+typedef int SOCKET;
+typedef struct sockaddr_in SOCKADDR_IN;
+typedef struct sockaddr SOCKADDR;
+typedef struct in_addr IN_ADDR;
+
+#endif
+
+#include <iostream>
+#include <string.h>
 #include <vector>
 #include <stdio.h>
 #include <stdlib.h>
 #include <fstream>	
-#include "D:\ESIREM\C++\LPC\LPC\LPC\Socket_.h"
+#include "Socket_.h"
 #include "Factory_Server.h"
 #include "Animations.h"
 
