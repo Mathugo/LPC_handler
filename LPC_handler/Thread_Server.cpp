@@ -28,7 +28,6 @@ void listen_client(Server* serv1, const unsigned short nb)
 			print_warning("Zombie : " + std::to_string(nb + 1) + " is unreachable ..");
 			serv1->removeClient(nb);
 		}
-		//Sleep(REFRESH_RECV);
 		std::this_thread::sleep_for(std::chrono::milliseconds(REFRESH_RECV));
 
 
@@ -56,9 +55,12 @@ void refresh(bool* done, const unsigned int& refresh_rate, const int* pourcentag
 {
 	while (*done != 1)
 	{
+#ifdef _WIN32
 		system("cls");
+#else
+		system("clear");
+#endif
 		std::this_thread::sleep_for(std::chrono::milliseconds(refresh_rate));
-		//Sleep(refresh_rate);
 		Animations::Loading(*pourcentage);
 
 	}

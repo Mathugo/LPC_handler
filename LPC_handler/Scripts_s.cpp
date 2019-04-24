@@ -50,8 +50,8 @@ void Info::print_help()
 	print_status("[ man <command>\t\t: Give more informations about a command");
 	print_status("[Man is only for exploit and transfer scripts ");
 	print_status("[ list_scripts\t\t: List all scripts available");
-	print_status("[ version\t\t: Print the current version and changes");
-	print_status("[ getcurrentsession\t: Print the information about the current session");
+	print_status("[ version\t\t\t: Print the current version and changes");
+	print_status("[ getcurrentsession\t\t: Print the information about the current session");
 	print_status("[ getsysinfo\t\t: Give information about the current session (user ...)");
 	print_status("[ getip\t\t\t: Give the External IP address of the current session");
 	print_status("[ set_session <nb_session>\t: Switch to an another session");
