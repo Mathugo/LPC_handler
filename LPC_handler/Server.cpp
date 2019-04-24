@@ -165,10 +165,8 @@ void Server::removeClient(const unsigned short& nb)
 	}
 	else
 	{
-		SetColor(4);
-		std::cout << "[!] Removing Zombie " << nb << " : " << clients[nb].ip_extern << std::endl;
+		print_warning("Removing Zombie " + std::to_string(nb) + " : " + clients[nb].ip_extern);
 		clients.erase(clients.begin() + nb);
-		std::cout << "[*] Done" << std::endl;
-		SetColor(7);
+		print_done("Done");
 	}
 }

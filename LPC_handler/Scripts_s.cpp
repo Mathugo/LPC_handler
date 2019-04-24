@@ -85,7 +85,6 @@ void Info::print_help()
  void Info::list(Server* server)
 {
 	print_status("Enuming clients...");
-	SetColor(2);
 	std::vector<st_Client> clients = server->getClients();
 	for (int i = 0; i < clients.size(); i++)
 	{

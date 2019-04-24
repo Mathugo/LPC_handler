@@ -75,6 +75,7 @@ void print_debug(const std::string buffer)
 }
 #else
 
+
 #ifndef _COLORS_
 #define _COLORS_
 
@@ -99,6 +100,7 @@ void print_debug(const std::string buffer)
 #define UNDL(x) "\x1B[4m" x RST
 
 #endif 
+
 void print_status(const std::string buffer)
 {
 	std::cout  << FYEL("[*] "+buffer) << std::endl;
