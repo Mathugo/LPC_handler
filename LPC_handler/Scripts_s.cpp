@@ -210,7 +210,8 @@ void Transfer::downloadFromClient(Server* serv1, SOCKET& cl_sock, const std::str
 		int pourcentage = 0;
 		bool done = 0;
 
-		std::thread t_refresh(refresh, &done, 200, &pourcentage);
+	//	std::thread t_refresh(refresh, &done, 200, &pourcentage);
+		print_status("Please wait until the file is transfered ..");
 
 		while (current_size != size || std::string(memblock) == "STOP")
 		{
@@ -228,10 +229,11 @@ void Transfer::downloadFromClient(Server* serv1, SOCKET& cl_sock, const std::str
 			}
 			pourcentage = current_size * 100;
 			pourcentage = pourcentage / size;
+		//	print_status(std::to_string(pourcentage) + "%");
 
 		}
 		done = 1;
-		t_refresh.join();
+	//	t_refresh.join();
 		file_export.close();
 		print_done("Done");
 		
