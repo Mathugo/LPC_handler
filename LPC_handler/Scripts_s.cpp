@@ -152,7 +152,7 @@ void Transfer::uploadToClient(Server* serv1, SOCKET& cl_sock, const std::string 
 		file.seekg(0, std::ios::beg);
 		bool done = 0;
 		int pourcentage = 0;
-		std::thread t_refresh(refresh, &done,200,&pourcentage);
+	//	std::thread t_refresh(refresh, &done,200,&pourcentage);
 
 		while (current_size != size)
 		{
@@ -169,11 +169,11 @@ void Transfer::uploadToClient(Server* serv1, SOCKET& cl_sock, const std::string 
 				current_size += len;
 				file.seekg(current_size, std::ios::beg);
 			}
-			pourcentage = current_size * 100;
-			pourcentage = pourcentage / size;
+			//pourcentage = current_size * 100;
+			//pourcentage = pourcentage / size;
 		}
 		done = 1;
-		t_refresh.join();
+		//t_refresh.join();
 		print_done("Done");
 	}
 	else
