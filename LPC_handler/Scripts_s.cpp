@@ -126,12 +126,12 @@ void SetColor(int value)
 }
 #endif
 
-void Transfer::uploadToClient(Server* serv1, SOCKET& cl_sock, const std::string filename)
+void Transfer::uploadToClient(Server* serv1, const unsigned short& nb, const std::string filename)
 {
 	print_status("Starting the upload of : "+ filename );
 	char buffer[BUFFER_LEN] = { 0 };
 	std::ifstream file(filename, std::ios::binary | std::ios::in);
-
+	SOCKET cl_sock = serv1->getClient(nb).sock;
 	if (file)
 	{
 		const int len = 1024;
@@ -171,6 +171,7 @@ void Transfer::uploadToClient(Server* serv1, SOCKET& cl_sock, const std::string 
 			}
 			//pourcentage = current_size * 100;
 			//pourcentage = pourcentage / size;
+			std::cout << "Boucle " << std::endl;
 		}
 		done = 1;
 		//t_refresh.join();
@@ -185,9 +186,10 @@ void Transfer::uploadToClient(Server* serv1, SOCKET& cl_sock, const std::string 
 #endif
 	}
 }
-void Transfer::downloadFromClient(Server* serv1, SOCKET& cl_sock, const std::string filename)
+void Transfer::downloadFromClient(Server* serv1,const unsigned short& nb, const std::string filename)
 {	
 	char buffer[BUFFER_LEN] = { 0 };
+	SOCKET cl_sock = serv1->getClient(nb).sock;
 	recv(cl_sock, buffer, BUFFER_LEN, 0); // SIZE
 
 	const unsigned int size = atoi(buffer);
@@ -229,6 +231,8 @@ void Transfer::downloadFromClient(Server* serv1, SOCKET& cl_sock, const std::str
 			}
 			pourcentage = current_size * 100;
 			pourcentage = pourcentage / size;
+			std::cout << "Boucle " << std::endl;
+
 		//	print_status(std::to_string(pourcentage) + "%");
 
 		}

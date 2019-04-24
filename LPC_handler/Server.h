@@ -59,6 +59,7 @@ public:
 	std::vector<st_Client> getClients();
 	void setDefaultClient(st_Client _default);
 	st_Client getDefaultClient() const;
+	st_Client getClient(const unsigned short& nb);
 
 	void removeDefaultClient();
 	void removeClient(const unsigned short& nb);

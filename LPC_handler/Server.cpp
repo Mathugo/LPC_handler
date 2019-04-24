@@ -131,6 +131,13 @@ void Server::setDefaultClient(st_Client _default)
 }
 st_Client Server::getDefaultClient() const { return default_client; }
 
+st_Client Server::getClient(const unsigned short& nb) { 
+	if (nb <= clients.size())
+		return clients[nb];
+	else
+		return default_client;
+		
+}
 bool Server::recv_b()
 {
 	char b[SIZE_BUFFER] = { 0 };
