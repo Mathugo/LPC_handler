@@ -124,7 +124,7 @@ void SetColor(int value)
 }
 #endif
 
-void Transfer::uploadToClient(Server* serv1,SOCKET cl_sock, const std::string filename)
+void Transfer::uploadToClient(Server* serv1,SOCKET& cl_sock, const std::string filename)
 {
 	print_status("Starting the upload of : "+ filename );
 	char buffer[BUFFER_LEN] = { 0 };
@@ -132,7 +132,6 @@ void Transfer::uploadToClient(Server* serv1,SOCKET cl_sock, const std::string fi
 	std::ifstream file(filename, std::ios::binary | std::ios::in);
 	if (file)
 	{
-		SOCKET cl_sock = serv1->getDefaultClient().sock;
 		const int len = 1024;
 		print_status("Sending data ..");
 		const int size = getSize(filename);
@@ -178,11 +177,11 @@ void Transfer::uploadToClient(Server* serv1,SOCKET cl_sock, const std::string fi
 		send(cl_sock, "STOP", 5, 0);
 		print_error("Error can\'t open file : ");
 #ifndef _WIN32
-		print_error("Error : " + std::string(strerror(errno));
+		print_error("Error : " + std::string(strerror(errno)));
 #endif
 	}
 }
-void Transfer::downloadFromClient(Server* serv1,SOCKET cl_sock, const std::string filename)
+void Transfer::downloadFromClient(Server* serv1,SOCKET& cl_sock, const std::string filename)
 {	
 	char buffer[BUFFER_LEN] = { 0 };
 
