@@ -25,7 +25,6 @@ Just clone the gitjub repo and build the project :
 ```
 git init
 git clone https://github.com/Mathugo/LPC_handler.git
-git pull
 cd LPC_handler
 chmod +x RUN.sh 
 ./RUN.sh
