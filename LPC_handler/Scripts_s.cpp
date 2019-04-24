@@ -56,6 +56,8 @@ void Info::print_help()
 	print_status("[ getip\t\t\t: Give the External IP address of the current session");
 	print_status("[ set_session <nb_session>\t: Switch to an another session");
 	print_status("[ list\t\t\t: list all actives sessions");
+	print_status("[ mute <nb>\t\t: Mute a zombie");
+	print_status("[ unmute <nb>\t\t: Unmute a zombie");
 	print_status("[ exit_session <number>\t: Exit a given session");
 	print_status("[ exit\t\t\t: exit the program");
 }
@@ -284,3 +286,4 @@ void Transfer::recvString(SOCKET cl_sock,const unsigned short nb)
 	}
 	
 }
+

