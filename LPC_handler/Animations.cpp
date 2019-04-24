@@ -20,8 +20,11 @@ void Animations::Welcome(const unsigned short& port)
 
 void Animations::Start()
 {
+#ifdef _WIN32
 	system("cls");
-	print_done("You have now access to the payload, be sure to check all options by taping : help");
+#else
+	system("clear");
+#endif	print_done("You have now access to the payload, be sure to check all options by taping : help");
 }
 
 void Animations::Loading(const int& pourcentage)

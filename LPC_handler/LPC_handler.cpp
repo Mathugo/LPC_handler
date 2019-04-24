@@ -35,14 +35,18 @@ typedef struct in_addr IN_ADDR;
 int main(int argc, char *argv[])
 {
 
-	const unsigned short port = 9997;
+	const unsigned short port = 32769;
 	std::string enter;
 
 	while (enter != "listen")
 	{
 		Animations::Welcome(port);
 		std::cin >> enter;
+#ifdef _WIN32
 		system("cls");
+#else
+		system("clear");
+#endif
 		if (enter == "exit") { return 0; }
 
 	}

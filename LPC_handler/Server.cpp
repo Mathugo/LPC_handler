@@ -138,7 +138,6 @@ bool Server::recv_b()
 	{
 		this->setBuffer(b);
 		std::this_thread::sleep_for(std::chrono::milliseconds(300));
-		//Sleep(300);
 		return 1;
 	}
 	else
