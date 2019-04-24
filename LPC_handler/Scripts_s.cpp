@@ -4,7 +4,7 @@ void Info::list_scripts()
 {
 	print_done("[\t\t------------ List of all scripts ------------");
 	print_done("[ You can enter : man <command> for more informations about a command");
-	print_done("[	 Man is only for exploit for transfer scripts ");
+	print_done("[	 Man is only for exploit or transfer scripts ");
 
 	print_warning("#------------------------------ Folder action -----------------------------#");
 
@@ -130,7 +130,6 @@ void Transfer::uploadToClient(Server* serv1,SOCKET cl_sock, const std::string fi
 	char buffer[BUFFER_LEN] = { 0 };
 
 	std::ifstream file(filename, std::ios::binary | std::ios::in);
-
 	if (file)
 	{
 		SOCKET cl_sock = serv1->getDefaultClient().sock;
@@ -140,7 +139,8 @@ void Transfer::uploadToClient(Server* serv1,SOCKET cl_sock, const std::string fi
 		
 		print_status(std::to_string(size) + " bytes to send");
 
-		serv1->send_b(size); // SIZE
+		send(cl_sock, std::to_string(size).c_str(), sizeof(size), 0); // SIZE
+
 		int current_size = 0;
 		char memblock[len] = { 0 };
 		const int rest = size % len;
@@ -175,14 +175,16 @@ void Transfer::uploadToClient(Server* serv1,SOCKET cl_sock, const std::string fi
 	}
 	else
 	{
-		serv1->send_b("STOP");
-		print_error("Error can\'t open file : "+filename);
+		send(cl_sock, "STOP", 5, 0);
+		print_error("Error can\'t open file : ");
+#ifndef _WIN32
+		print_error("Error : " + std::string(strerror(errno));
+#endif
 	}
 }
-void Transfer::downloadFromClient(Server* serv1, const std::string filename)
+void Transfer::downloadFromClient(Server* serv1,SOCKET cl_sock, const std::string filename)
 {	
 	char buffer[BUFFER_LEN] = { 0 };
-	SOCKET cl_sock = serv1->getDefaultClient().sock;
 
 	recv(cl_sock, buffer, BUFFER_LEN, 0); // SIZE
 
