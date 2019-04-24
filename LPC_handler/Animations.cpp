@@ -5,35 +5,27 @@ void Animations::Welcome(const unsigned short& port)
 {
 	std::cout << "BOTNET Version : " << VERSION << std::endl;
 	std::cout << "Last update : " << UPDATE << std::endl << std::endl;
-	SetColor(6);
-
-	std::cout <<"\t\t[ #--------------#	   Welcome to \t\t#------------#]" << std::endl;
-	std::cout <<"\t\t[ #--------------#       Le Petit Cheval        #------------#]" << std::endl;
-	std::cout <<"\t\t[ Fully undetectable payload.It allows you to do basic tricks ]" << std::endl;
-	std::cout <<"\t\t[ like screenshot, upload rootkit,custom exploit,enum password]" << std::endl;
-	std::cout <<"\t\t[ #--------------------MADE BY HUGO MATH---------------------#]" << std::endl;
-	std::cout <<"\t\t[ # Author            : Hugo Math                            #]" << std::endl;
-	std::cout <<"\t\t[ # Script Developers : Hugo Math && Lucien Leseigle         #]" << std::endl;
-	std::cout <<"\t\t[ # Contributors      : Hugo Math && Lucien Leseigle         #]" << std::endl;
-	std::cout <<"[*] WARNING this handler only works on Windows" << std::endl << std::endl;
-	SetColor(14);
-	std::cout << "Enter : listen to start listenning to clients at the port : " << port<< std::endl;
-	std::cout << "Enter : exit to exit the handler" << std::endl;
-	SetColor(7);
+	print_status("\t\t[ #--------------#	   Welcome to \t\t#------------#]");
+	print_status("\t\t[ #--------------#       Le Petit Cheval        #------------#]");
+	print_status("\t\t[ Fully undetectable payload.It allows you to do basic tricks ]");
+	print_status("\t\t[ like screenshot, upload rootkit,custom exploit,enum password]");
+	print_status("\t\t[ #--------------------MADE BY HUGO MATH---------------------#]");
+	print_status("\t\t[ # Author:Hugo Math					     #]");
+	print_status("\t\t[ # Script Developers : Hugo Math && Lucien Leseigle         #]");
+	print_status("\t\t[ # Contributors      : Hugo Math && Lucien Leseigle         #]");
+	print_warning("Enter : listen to start listenning to clients at the port : " + std::to_string(port));
+	print_warning("Enter : exit to exit the handler");
 	std::cout << ">> ";
 }
 
 void Animations::Start()
 {
 	system("cls");
-	SetColor(2);
-	std::cout << "[*] You have now access to the payload, be sure to check all options by taping : help" << std::endl;
-	SetColor(7);
+	print_done("You have now access to the payload, be sure to check all options by taping : help");
 }
 
 void Animations::Loading(const int& pourcentage)
 {
-		SetColor(6);
 		print_status("Please wait until the file is transfered ..");
 		print_status(std::to_string(pourcentage) + "%");
 		std::this_thread::sleep_for(std::chrono::milliseconds(100));
@@ -105,18 +97,17 @@ void print_status(const std::string buffer)
 {
 	std::cout << KYEL << "[*] " << buffer << RST << std::endl;
 }
-
 void print_warning(const std::string buffer)
 {
 	std::cout << KYEL << "[!] " << buffer << RST << std::endl;
 }
 void print_error(const std::string buffer)
 {
-	std::cout << KBOLD << FRED << "[X] " << buffer << RST << std::endl;
+	std::cout << KBOLD << KRED << "[X] " << buffer << RST << std::endl;
 }
 void print_done(const std::string buffer)
 {
-	std::cout << KBOLD << FGRN << "[*] " << buffer << RST << std::endl;
+	std::cout << KBOLD << KGRN << "[*] " << buffer << RST << std::endl;
 }
 void print_debug(const std::string buffer)
 {
