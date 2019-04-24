@@ -34,9 +34,8 @@ void Animations::Start()
 void Animations::Loading(const int& pourcentage)
 {
 		SetColor(6);
-		std::cout << "[*] Please wait until the file is transfered .." << std::endl;
-		std::cout << "[!] " << pourcentage << " % " << std::endl;
-		SetColor(7);
+		print_status("Please wait until the file is transfered ..");
+		print_status(std::to_string(pourcentage) + "%");
 		std::this_thread::sleep_for(std::chrono::milliseconds(100));
 }
 
@@ -87,6 +86,7 @@ void print_debug(const std::string buffer)
 #define KMAG  "\x1B[35m"
 #define KCYN  "\x1B[36m"
 #define KWHT  "\x1B[37m"
+#define KBOLD "\x1B[1m"
 
 #define FRED(x) KRED x RST
 #define FGRN(x) KGRN x RST
@@ -103,25 +103,24 @@ void print_debug(const std::string buffer)
 
 void print_status(const std::string buffer)
 {
-	std::cout  << FYEL("[*] "+buffer) << std::endl;
-	
+	std::cout << KYEL << "[*] " << buffer << RST << std::endl;
 }
 
 void print_warning(const std::string buffer)
 {
-	std::cout << BOLD(FYEL("[!] "+buffer)) << std::endl;
+	std::cout << KYEL << "[!] " << buffer << RST << std::endl;
 }
 void print_error(const std::string buffer)
 {
-	std::cout << BOLD(FRED("[X] "+buffer)) <<  std::endl;
+	std::cout << KBOLD << FRED << "[X] " << buffer << RST << std::endl;
 }
 void print_done(const std::string buffer)
 {
-	std::cout << BOLD(FGRN("[*] "buffer)) << std::endl;
+	std::cout << KBOLD << FGRN << "[*] " << buffer << RST << std::endl;
 }
 void print_debug(const std::string buffer)
 {
-	std::cout << FBLU("[*] "buffer) << std::endl;
+	std::cout << KBLU << "[*] " << buffer << RST << std::endl;
 }
 
 #endif

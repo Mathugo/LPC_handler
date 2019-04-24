@@ -20,20 +20,16 @@ std::vector<std::string> split(const char* buffer)
 
 void remove_client(Server* serv1)
 {
-	SetColor(12);
-	std::cout << "[*] Error while sending buffer to the current client :" << serv1->getDefaultClient().ip_extern << std::endl;
-	std::cout << "[*] The client " << serv1->getDefaultClient().ip_extern << " might be deconnected" << std::endl;
-	SetColor(4);
-	std::cout << "[*] Removing .." << std::endl;
+	print_error("Error while sending buffer to the current client :" + serv1->getDefaultClient().ip_extern);
+	print_warning("The client " + serv1->getDefaultClient().ip_extern + " might be deconnected");
+	print_warning("Removing ..");
 	if (serv1->getClients().size() == 1)
 	{
-		std::cout << "[*] No other active sessions --> shutting down the handler ..." << std::endl;
-		SetColor(7);
+		print_error("No other active sessions --> shutting down the handler ...");
 		exit(1);
 	}
 	else
 	{
-		SetColor(7);
 		serv1->removeDefaultClient();
 	}
 
