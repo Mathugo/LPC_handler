@@ -35,7 +35,7 @@ typedef struct in_addr IN_ADDR;
 int main(int argc, char *argv[])
 {
 
-	const unsigned short port = 32769;
+	const unsigned short port = 9997; //PORT	
 	std::string enter;
 
 	while (enter != "listen")
@@ -64,7 +64,6 @@ int main(int argc, char *argv[])
 	
 	std::thread t_send(send_t, serv1);
 	
-//	Sleep(3000);
 	std::this_thread::sleep_for(std::chrono::milliseconds(3000));
 
 	Animations::Start();

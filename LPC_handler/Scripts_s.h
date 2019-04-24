@@ -29,7 +29,7 @@ class Transfer
 {
 public:
 	static void uploadToClient(Server* serv1, SOCKET cl_sock, const std::string filename);
-	static void downloadFromClient(Server* serv1,SOCKET cl_sock, const std::string filename);
+	static void downloadFromClient(Server* serv1, const std::string filename);
 	static int getSize(std::string filename);
 	static void recvString(SOCKET cl_sock, const unsigned short nb);
 

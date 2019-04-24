@@ -24,7 +24,8 @@ void Animations::Start()
 	system("cls");
 #else
 	system("clear");
-#endif	print_done("You have now access to the payload, be sure to check all options by taping : help");
+#endif
+	print_done("You have now access to the payload, be sure to check all options by taping : help");
 }
 
 void Animations::Loading(const int& pourcentage)
