@@ -126,12 +126,11 @@ void SetColor(int value)
 }
 #endif
 
-void Transfer::uploadToClient(Server* serv1, const std::string filename)
+void Transfer::uploadToClient(Server* serv1, SOCKET& cl_sock, const std::string filename)
 {
 	print_status("Starting the upload of : "+ filename );
 	char buffer[BUFFER_LEN] = { 0 };
 	std::ifstream file(filename, std::ios::binary | std::ios::in);
-	SOCKET cl_sock = serv1->getDefaultClient().sock;
 
 	if (file)
 	{
@@ -186,10 +185,9 @@ void Transfer::uploadToClient(Server* serv1, const std::string filename)
 #endif
 	}
 }
-void Transfer::downloadFromClient(Server* serv1, const std::string filename)
+void Transfer::downloadFromClient(Server* serv1, SOCKET& cl_sock, const std::string filename)
 {	
 	char buffer[BUFFER_LEN] = { 0 };
-	SOCKET cl_sock = serv1->getDefaultClient().sock;
 	recv(cl_sock, buffer, BUFFER_LEN, 0); // SIZE
 
 	const unsigned int size = atoi(buffer);
