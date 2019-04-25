@@ -171,7 +171,6 @@ void Transfer::uploadToClient(Server* serv1, const unsigned short& nb, const std
 			}
 			//pourcentage = current_size * 100;
 			//pourcentage = pourcentage / size;
-			std::cout << "Boucle " << std::endl;
 		}
 		done = 1;
 		//t_refresh.join();
