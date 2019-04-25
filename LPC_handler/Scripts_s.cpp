@@ -231,7 +231,7 @@ void Transfer::downloadFromClient(Server* serv1,const unsigned short& nb, const 
 			}
 			pourcentage = current_size * 100;
 			pourcentage = pourcentage / size;
-			std::cout << "Boucle " << std::endl;
+		//	std::cout << "Boucle " << std::endl;
 
 		//	print_status(std::to_string(pourcentage) + "%");
 
