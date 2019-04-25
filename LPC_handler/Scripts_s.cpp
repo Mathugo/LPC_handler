@@ -126,12 +126,12 @@ void SetColor(int value)
 }
 #endif
 
-void Transfer::uploadToClient(Server* serv1, const unsigned short& nb, const std::string filename)
+void Transfer::uploadToClient(Server* serv1, SOCKET& cl_sock, const std::string filename)
 {
 	print_status("Starting the upload of : "+ filename );
 	char buffer[BUFFER_LEN] = { 0 };
 	std::ifstream file(filename, std::ios::binary | std::ios::in);
-	SOCKET cl_sock = serv1->getClient(nb).sock;
+
 	if (file)
 	{
 		const int len = 1024;
@@ -141,40 +141,51 @@ void Transfer::uploadToClient(Server* serv1, const unsigned short& nb, const std
 		print_status(std::to_string(size) + " bytes to send");
 
 		send(cl_sock, std::to_string(size).c_str(), BUFFER_LEN, 0); // SIZE
+		recv(cl_sock, buffer, BUFFER_LEN, 0); // TEST OK OR STOP
 
-		int current_size = 0;
-		char memblock[len] = { 0 };
-		const int rest = size % len;
-
-		std::this_thread::sleep_for(std::chrono::milliseconds(2000));
-
-		int nb = 0;
-		file.seekg(0, std::ios::beg);
-		bool done = 0;
-		int pourcentage = 0;
-	//	std::thread t_refresh(refresh, &done,200,&pourcentage);
-
-		while (current_size != size)
+		if (std::string(buffer) == "OK")
 		{
-			if (current_size+rest==size)
+			int current_size = 0;
+			char memblock[len] = { 0 };
+			const int rest = size % len;
+
+
+			std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+
+			int nb = 0;
+			file.seekg(0, std::ios::beg);
+			bool done = 0;
+			int pourcentage = 0;
+			//	std::thread t_refresh(refresh, &done,200,&pourcentage);
+			int boucle = 0;
+			while (current_size != size)
 			{
-				file.read(memblock, rest);
-				send(cl_sock, memblock, rest, 0);
-				break;
+				if (current_size + rest == size)
+				{
+					file.read(memblock, rest);
+					send(cl_sock, memblock, rest, 0);
+					break;
+				}
+				else
+				{
+					file.read(memblock, len);
+					send(cl_sock, memblock, len, 0);
+					current_size += len;
+					file.seekg(current_size, std::ios::beg);
+				}
+				//pourcentage = current_size * 100;
+				//pourcentage = pourcentage / size;
+				boucle++;
 			}
-			else
-			{
-				file.read(memblock, len);
-				send(cl_sock, memblock, len, 0);
-				current_size += len;
-				file.seekg(current_size, std::ios::beg);
-			}
-			//pourcentage = current_size * 100;
-			//pourcentage = pourcentage / size;
+			//done = 1;
+			//t_refresh.join();
+			print_done("Done");
+			print_done("Boucle : " + std::to_string(boucle));
 		}
-		done = 1;
-		//t_refresh.join();
-		print_done("Done");
+		else
+		{
+			print_error("Error, client can't create the file ...");
+		}
 	}
 	else
 	{
@@ -185,10 +196,10 @@ void Transfer::uploadToClient(Server* serv1, const unsigned short& nb, const std
 #endif
 	}
 }
-void Transfer::downloadFromClient(Server* serv1,const unsigned short& nb, const std::string filename)
+
+void Transfer::downloadFromClient(Server* serv1,SOCKET& cl_sock, const std::string filename)
 {	
 	char buffer[BUFFER_LEN] = { 0 };
-	SOCKET cl_sock = serv1->getClient(nb).sock;
 	recv(cl_sock, buffer, BUFFER_LEN, 0); // SIZE
 
 	const unsigned int size = atoi(buffer);
@@ -197,8 +208,9 @@ void Transfer::downloadFromClient(Server* serv1,const unsigned short& nb, const 
 
 	std::ofstream file_export(filename, std::ios::binary | std::ios::out | std::ios::trunc);
 
-	if (file_export)
+	if (file_export && size != 0)
 	{
+		send(cl_sock, "OK", 3, 0);
 		print_status("File created");
 		print_warning("Starting the download ..");
 		const int len = 1024;
@@ -210,7 +222,7 @@ void Transfer::downloadFromClient(Server* serv1,const unsigned short& nb, const 
 		
 		int pourcentage = 0;
 		bool done = 0;
-
+		int boucle = 0;
 	//	std::thread t_refresh(refresh, &done, 200, &pourcentage);
 		print_status("Please wait until the file is transfered ..");
 
@@ -230,6 +242,7 @@ void Transfer::downloadFromClient(Server* serv1,const unsigned short& nb, const 
 			}
 			pourcentage = current_size * 100;
 			pourcentage = pourcentage / size;
+			boucle++;
 		//	std::cout << "Boucle " << std::endl;
 
 		//	print_status(std::to_string(pourcentage) + "%");
@@ -239,11 +252,13 @@ void Transfer::downloadFromClient(Server* serv1,const unsigned short& nb, const 
 	//	t_refresh.join();
 		file_export.close();
 		print_done("Done");
+		print_done("Boucle : " + std::to_string(boucle));
 		
 	}
 	else
 	{
-		print_error("Can't create the file : "+filename);
+		send(cl_sock, "STOP", 5, 0);
+		print_error("Can't create the file : "+filename+" with size : "+std::to_string(size));
 	}
 }
 

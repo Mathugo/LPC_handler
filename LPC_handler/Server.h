@@ -42,6 +42,7 @@ struct st_Client
 	std::string city;
 	std::string country;
 	std::string ip_extern;
+	bool mute = 0;
 };
 
 class Server : public Socket_

