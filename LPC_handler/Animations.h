@@ -1,8 +1,8 @@
 #pragma once
 #include "Scripts_s.h"
 #include <iostream>
-#define VERSION "1.5"
-#define UPDATE "mute() function"
+#define VERSION "1.6.1"
+#define UPDATE "SendMail function"
 
 class Animations
 {

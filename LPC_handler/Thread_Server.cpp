@@ -5,23 +5,25 @@ void listen_client(Server* serv1, const unsigned short nb)
 {
 	char buffer[512] = { 0 };
 	char big_buffer[HUGE_BUFFER] = { 0 };
+	
 	while (strcmp(buffer, "exit") != 0)
 	{
-		std::vector<st_Client> clients = serv1->getClients();
-		if (recv(clients[nb].sock, buffer, sizeof(buffer), 0) > 0)
+		st_Client client = serv1->getClient(nb);
+
+		if (recv(serv1->getSockCl(nb), buffer, sizeof(buffer), 0) > 0)
 		{
 			std::vector<std::string> args = split(buffer);
 
 			if (args[0] == "upload" && args.size() == 2)
 			{
-				Transfer::uploadToClient(serv1,clients[nb].sock, args[1]);
+				Transfer::uploadToClient(serv1, &serv1->getSockCl(nb), args[1]);
 			}
 			else if (args[0] == "download" && args.size() == 2)
 			{
-				Transfer::downloadFromClient(serv1,clients[nb].sock, args[1]);
+				Transfer::downloadFromClient(serv1, &serv1->getSockCl(nb), args[1]);
 			}
 			else
-				if (clients[nb].mute == 0)
+				if (client.mute == 0)
 				{
 					print_status("Zombie " + std::to_string(nb + 1) + ": " + buffer);
 				}

@@ -37,11 +37,12 @@ typedef struct in_addr IN_ADDR;
 struct st_Client
 {
 	SOCKET sock;
-	std::string addr;
-	unsigned int number;
-	std::string city;
-	std::string country;
-	std::string ip_extern;
+	std::string addr="0.0.0.0";
+	unsigned short sin_port = 0;
+	unsigned int number=0;
+	std::string city="None";
+	std::string country="None";
+	std::string ip_extern="0.0.0.0";
 	bool mute = 0;
 };
 
@@ -57,11 +58,13 @@ public:
 	
 	Server(const int pPort);
 	~Server();
-	std::vector<st_Client> getClients();
-	void setDefaultClient(st_Client _default);
-	st_Client getDefaultClient() const;
-	st_Client getClient(const unsigned short& nb);
-
+	std::vector<st_Client>& getClients();
+	void setDefaultClient(st_Client& _default);
+	st_Client& getDefaultClient();
+	st_Client& getClient(const unsigned short& nb);
+	void setMute(const unsigned short& nb);
+	void setUnmute(const unsigned short& nb);
+	SOCKET& getSockCl(const unsigned short& nb);
 	void removeDefaultClient();
 	void removeClient(const unsigned short& nb);
 	bool getExit();

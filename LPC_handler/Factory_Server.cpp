@@ -23,6 +23,7 @@ void remove_client(Server* serv1)
 	print_error("Error while sending buffer to the current client :" + serv1->getDefaultClient().ip_extern);
 	print_warning("The client " + serv1->getDefaultClient().ip_extern + " might be deconnected");
 	print_warning("Removing ..");
+
 	if (serv1->getClients().size() == 1)
 	{
 		print_error("No other active sessions --> shutting down the handler ...");
@@ -88,13 +89,13 @@ Factory_Server::Factory_Server(Server* serv1, const char* pbuffer) : buffer(pbuf
 void mute(Server* serv, const std::string nb)
 {
 	SOCKET* sock = serv->getSock();
-	std::vector<st_Client> clients = serv->getClients();
 	int nb_int = atoi(nb.c_str());
 	nb_int--;
-	if (nb_int <= clients.size())
+
+	if (nb_int <= (serv->getClients().size()))
 	{
 		print_status("Muting zombie " + nb + " ...");
-		clients[nb_int].mute = 1;
+		serv->setMute(nb_int);
 		print_done("Done");
 	}
 	else
@@ -105,13 +106,13 @@ void mute(Server* serv, const std::string nb)
 void unmute(Server* serv, const std::string nb)
 {
 	SOCKET* sock = serv->getSock();
-	std::vector<st_Client> clients = serv->getClients();
 	int nb_int = atoi(nb.c_str());
 	nb_int--;
-	if (nb_int <= clients.size())
+
+	if (nb_int <= (serv->getClients().size()))
 	{
-		print_status("Unmuting zombie " + nb + " ...");
-		clients[nb_int].mute = 0;
+		print_status("unmuting zombie " + nb + " ...");
+		serv->setUnmute(nb_int);
 		print_done("Done");
 	}
 	else
